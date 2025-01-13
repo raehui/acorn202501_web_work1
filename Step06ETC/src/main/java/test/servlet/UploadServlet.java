@@ -35,7 +35,10 @@ public class UploadServlet extends HttpServlet{
 			uploadDir.mkdir(); //실제로 폴더 만들기
 		}
 		
+		//=> 입력한 데이터를 저장할 폴더 (/upload) 설정하기
+		
 		String title=req.getParameter("title");
+		//=>Html에서 입력한 title을 가져오기
 		
 		//파일명이 겹치지 않게 저장하기 위한 랜덤한 문자열 얻어내기
 		//겹치지 않는 특별한 문자열이 만들어짐
@@ -44,9 +47,11 @@ public class UploadServlet extends HttpServlet{
 		String orgfileName=null;
 		String saveFileName=null;
 		
+		//=>서버에 저장할 파일의 이름명 생성하기
+		
 		//파일 데이터 처리
-		//input type의 name
-		Part filePart=req.getPart("myFile");
+		//입력한 파일의 정보를 Part 객체를 이용해서 읽어오기
+		Part filePart=req.getPart("myFile"); //사용자가 입력한 파일 받아오기 
 		if(filePart !=null) {
 			//원본 파일의 이름 얻어내기
 			orgfileName=filePart.getSubmittedFileName();
@@ -60,15 +65,21 @@ public class UploadServlet extends HttpServlet{
 			 * 업로드된 파일은 임시 폴더에 임시 파일로 저장이 된다.
 			 * 해당 파일에서 byte 알갱이를 읽어 들일 수 있는 InputStream 객체를 얻어내고
 			 */
+			//=>사용자가 업로드할 파일의 이름과 서버에 저장될 파일 경로 및 이름을 만드는 과정
+			
 			InputStream is=filePart.getInputStream();
 			//원하는 목적지에 copy를 해야 한다
+			//임시 경로에 있는 파일을 최종 목적지만 잘 작상하면 
 			Files.copy(is, Paths.get(filePath));		
+			//=> 원하는 경로에 저장하기
 		}
 		
 		//파일의 크기 얻어내기(큰 정수이기 때문에 long type 이다.)
 		long fileSize=filePart.getSize();
+		//=> 파일의 크기 얻어오기
 		
 		//응답에 필요한 데이터를 request 영역에 담기
+		//requestScope 오브젝트에 키 : value 값 담기
 		req.setAttribute("title", title);
 		req.setAttribute("orgFileName", orgfileName);
 		req.setAttribute("saveFileName", saveFileName);

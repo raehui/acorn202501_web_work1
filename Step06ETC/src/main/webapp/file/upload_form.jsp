@@ -9,7 +9,6 @@
 <body>
 	<%--
 		[파일 업로드 폼 구성하는 방법]
-		
 		method="post"
 		enctype="multipart/form-data"   파일을 업로드 해야하기에
 		<input type="file">
