@@ -15,13 +15,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-@WebServlet("/file/upload")
+@WebServlet("/file/upload3")
 @MultipartConfig( //어노테이션 기반으로 class 파일이 새로 만들어짐
 		fileSizeThreshold = 1024*1024*5, //메모리 임계값 , 메모리를 효율적으로 사용하기 위한 코드
 		maxFileSize = 1024*1024*50, //최대 파일 사이즈 50mg byte
 		maxRequestSize = 1024*1024*60 //최대 요청 사이즈
 		)
-public class UploadServlet extends HttpServlet{
+public class UploadServlet3 extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class UploadServlet extends HttpServlet{
 		
 		//파일 데이터 처리
 		//input type의 name
-		Part filePart=req.getPart("myFile");
+		Part filePart=req.getPart("myImage");
 		if(filePart !=null) {
 			//원본 파일의 이름 얻어내기
 			orgfileName=filePart.getSubmittedFileName();
@@ -78,7 +78,7 @@ public class UploadServlet extends HttpServlet{
 		
 		//jsp 페이지로 응답을 위임하기
 		String cPath=req.getContextPath();
-		RequestDispatcher rd=req.getRequestDispatcher("/file/upload.jsp"); //응답을 위임을 할 때는 컨텍 경로를 붙이지 않음
+		RequestDispatcher rd=req.getRequestDispatcher("/file/upload3.jsp"); //응답을 위임을 할 때는 컨텍 경로를 붙이지 않음
 		rd.forward(req, resp);
 		
 	}
