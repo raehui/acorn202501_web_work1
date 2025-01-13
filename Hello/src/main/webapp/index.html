@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index.html</title>
+</head>
+<body>
+	<h1>인덱스 페이지 입니다.</h1>
+	<p>내 이름은 :<strong>곽래희</strong></p>
+	<!-- 현재 위치를 기준으로 한 상대경로를 이용해서 이미지 로팅시키기 -->
+	<img alt="" src="images/kim1.png">
+	<!-- tomcat 서버상에서의 절대경로를 이용해서 이미지 로딩 시키기 -->
+	<img alt="" src="/Hello/images/kim1.png"> 
+	<!-- 웹상에서의 절대경로를 이용해서 이미지 로딩 시키기 -->  
+	<img alt="" src="http://localhost:8888/Hello/images/kim1.png">
+	<ul>
+		<li><a href="sub/play.html">놀러가기</a></li>
+		<li><a href="/Hello/sub/play.html">놀러가기</a></li>
+		<li><a href="http://localhost:8888/Hello/sub/play.html">놀러가기</a></li>
+		<li><a href="ping">핑</a></li>
+	</ul>
+	
+</body>
+</html>

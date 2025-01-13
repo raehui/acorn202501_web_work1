@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>인덱스 페이지 입니다</h1>
+		<ul>
+			<li><a href="fortune">오늘의 운세</a></li>
+			<li><a href="friends">친구목록</a></li>
+			<li><a href="friends.jsp">친구목록2</a></li>
+			<!-- requset.getParameter("num") -->
+			<li><a href="member?num=1">1 번 회원의 정보 보기</a></li>
+			<!-- member.jsp?num=1이라는 요청에 맞는 페이지 생성해야 함 -->
+			<li><a href="member.jsp?num=1">1번 회원의 정보 보기2</a></li>
+			<li><a href="member/list">회원 목록 보기</a></li>
+			<li><a href="member/list.jsp">회원 목록보기</a></li>
+		</ul>
+		<!-- 주소창에 달고 감 -->
+		<form action="send" method="get">
+			<input type="text" name="msg" placeholder="할말 입력...">
+			<button type="submit">전송</button>
+		</form>
+		
+		<br>
+		<!-- post 방식 -->
+		<!-- 몸통에 달고감 -->
+		<form action="send" method="post">
+			<input type="text" name="msg" placeholder="할말 입력...">
+			<button type="submit">전송</button>
+		</form>
+		
+		<br>
+		
+		<h2>jsp 페이지로 요청하기</h2>
+		<form action="send.jsp" method="post">
+			<input type="text" name="msg" placeholder="할말 입력...">
+			<button type="submit">전송</button>
+		</form>
+		
+		
+		
+		
+		
+		
+	</div>
+</body>
+</html>
