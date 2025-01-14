@@ -50,6 +50,7 @@
 			//form요소가 없으니 수동으로 담아주기
 			//파라미터명에 파일 데이터를 담을 수 있음
 			//수동으로 우리가 form을 만들어서 거기에 파라미터명과 가지고 가는 데이터를 정해줌
+			//데이터의 이름은 myImage이고 데이터 타입은 파일이야
 			data.append("myImage",fileData);
 			
 			
@@ -58,7 +59,10 @@
 			fetch("${pageContext.request.contextPath}/file/upload4",{
 				method:"post",
 				body:data,
-			}) //페이지에 요청하고 응답을 받아오기
+			}) 
+			//data인 UploadServlet4 페이지와 upload4.jsp에서 응답이 옴
+			//UploadServlet4에서는 
+			
 			.then(res=>res.json())
 			.then(data=>{
 				//data.savaFileName은 업로드된 이미지의 저장된 파일명이다.
@@ -68,8 +72,8 @@
 				//jsp(서버)가 해석하지 못하게 / 붙여서 저장
 
 				//backtic으로 html요소를 만들면서 원하는 데이터를 넣을 수 있음
-				//하지만 여기서 자바스크립트의 ${}는 원하는 데이터를 넣는 것이고
-				//jsp(서버도) ${}를 사용한다. 여기서는 jsp가 ${}도 자신이 해석하는 거라고 착각해서 내용이 안나올수도 있으니 \를 사용하는 것임
+				<%--하지만 여기서 자바스크립트의 ${}는 원하는 데이터를 넣는 것이고--%>
+				<%--jsp(서버도) ${}를 사용한다. 여기서는 jsp가 ${}도 자신이 해석하는 거라고 착각해서 내용이 안나올수도 있으니 \를 사용하는 것임--%>
 				const img=`
 					<img id="profileImage" src="${pageContext.request.contextPath}/upload/\${data.saveFileName}">
 				`;
