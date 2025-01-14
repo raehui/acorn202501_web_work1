@@ -16,6 +16,10 @@
 		<p>fileSize: <strong>${fileSize}</strong></p>
 		<p>uploadPath: <strong>${uploadPath}</strong></p>
 		<p>
+			<%--
+				파일을 다운로드 하기위해서는 원본파일명, 저장된 파일명, 파일의 크기가 필요
+				원래는 파일의 id가 전달하면 id를 이용해서 파일 정보를 DB에서 읽어와서 가지고 옴				
+			 --%>
 			<a href="${pageContext.request.contextPath }/file/download?orgFileName=${orgFileName }&saveFileName=${saveFileName}&fileSize=${fileSize}">다운로드</a>
 		</p>
 		

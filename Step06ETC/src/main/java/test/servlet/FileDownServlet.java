@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 @WebServlet("/file/download")
 public class FileDownServlet extends HttpServlet {
 	@Override
@@ -22,24 +23,35 @@ public class FileDownServlet extends HttpServlet {
 		long fileSize=Long.parseLong(req.getParameter("fileSize"));
 		
 		// 응답 헤더 정보 설정
+		//웹브라우저에게 파일을 전송하기 위해 미리 3가지 정보를 알려준다.
+		//1. 콘텐트 타입, 파일을 전송할거야
 		resp.setHeader("Content-Type", "application/octet-stream; charset=UTF-8");
 		// 다운로드 시켜줄 파일명 인코딩
 		String encodedName = URLEncoder.encode(orgFileName, "utf-8");
 		// 파일명에 공백이있는 경우 처리
 		encodedName = encodedName.replaceAll("\\+", " ");
 		//헤더에게 파일명을 알려줘서 만들어라!
+		//2. 파일명은 이거야 웹브라우저는 여기서 준 파일명으로 다운로드 받는다.
 		resp.setHeader("Content-Disposition", "attachment;filename=" + encodedName);
 		resp.setHeader("Content-Transfer-Encoding", "binary");
+		
+		//=> 헤더에게 다운로드할 파일의 정보를 알려주기
 
 		// 다운로드할 파일의 크기
+		//3. 파일의 크기는 이거야
+		//잘 준비하고 받아!
 		resp.setContentLengthLong(fileSize);
 
 		// 다운로드 시켜줄 파일의 실제 경로
 		//저장된 파일에 경로를 구성하기
+		//업로드된 실제 파일의 경로 + | + saveFileName=uid+orgfileName
+		
+		//우리가 다운받는게 임시파일인가? 저장된 경로에서의 파일
 		String path = getServletContext().getRealPath("/upload") + File.separator + saveFileName;
 		
 		 System.out.println(path);
-
+		 
+		//btey 알갱이를 읽어와서 클라이언트에게 출력 
 		FileInputStream fis = null;
 		BufferedOutputStream bos = null;
 		try {

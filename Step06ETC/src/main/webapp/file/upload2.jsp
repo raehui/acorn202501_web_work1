@@ -18,6 +18,7 @@
 		<p>
 			<a href="${pageContext.request.contextPath }/file/download?orgFileName=${orgFileName }&saveFileName=${saveFileName}&fileSize=${fileSize}">다운로드</a>
 		</p>
+		<%--저장된 경로만 알면 webapp에 있는 걸 가지고 올 수 잇음 --%>
 		<img src="${pageContext.request.contextPath}/upload/${saveFileName}" alt="업로드된 이미지" />
 	</div>
 </body>

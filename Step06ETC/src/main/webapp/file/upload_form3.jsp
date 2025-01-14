@@ -25,9 +25,11 @@
 			
 			//envet.target => 해당 이벤트가 발생한 바로 그 요소의 참조값 (form의 참조값)
 			//document.querySelector("#myForm")과 동일함
-			//입력된 데이터가 담긴다.
+			
+			//이것만 바디에 잘 담으면 파일이 업로드 되는 거임
 			const data=new FormData(event.target);
 			//fetch 함수를 이용해서 FormData 전송하기
+			//FormData에는 설명과, 이미지의 정보가 들어가 있음
 			fetch("${pageContext.request.contextPath}/file/upload3",{
 				//object는 키 : 값 생각하기
 				method :"post",
