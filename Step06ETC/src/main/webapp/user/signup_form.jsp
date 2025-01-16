@@ -16,6 +16,8 @@
 <body>
 	<div class="container">
 		<h1>회원가입 폼 입니다.</h1>
+		<!--novalidate 는 웹브라우저가 제공하는 기본 폼 검증 방법 비활성-->
+		<!-- 우리가 원하는 검증 방법을 사용해야 하니 -->
 		<form action="signup.jsp" method="post" id="signupForm" novalidate>
 			<div>
 				<label for="id">아이디</label>
@@ -23,7 +25,6 @@
 				<small>영문자 소문자로 시작하고 5~10글자 이네로 입력하세요!</small>
 				<div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>				
 			</div>
-			
 			<button type="submit">가입</button>
 		</form>
 	</div>
@@ -43,6 +44,8 @@
 			//만일 아이디를 검증하는 정규표현식을 통과 하지 않았다면
 			if(!result){
 				//폼 제출을 막기
+				//여기서 e는 폼 제출할려는 동작
+				//e.target는 제출하는 동작이 발생되는 form 이다.
 				e.preventDefault();
 				//.invalid-feedback인  div를 보이게 해보세요 (display:block)
 				document.querySelector(".invalid-feedback").style.display="block";
