@@ -102,25 +102,25 @@
 			if(!reg_pwd.test(pwd) || !reg_pwd.test(pwd2)){
 				document.querySelector("#pwd").classList.add("is-invalid");
 				isPwdValid=false;
-				checkForm();
-				return;
+				checkForm(); //버튼 비활성화
+				return; //입력 번호가 정규식에 맞지 않다면 같은지 비교하지 않아도 되니 밑에 코드 비실행
 			}   
 			
 			//양쪽에 입력한 비밀번호가 같은지 확인해서 같으면 isPwdValid 를 true 
 			// 다르면 isPwdValid 를 false 로 변경하고 checkForm() 호출 
 			if(pwd == pwd2){
-				document.querySelector("#pwd").classList.add("is-valid");
+				document.querySelector("#pwd").classList.add("is-valid"); 
 				//비밀번호가 유효 하다는 의미에서 true 를 넣어준다.
 				isPwdValid=true;
 			}else{
-				document.querySelector("#pwd").classList.add("is-invalid");
+				document.querySelector("#pwd").classList.add("is-invalid"); // invalid-feedback 보여주기
 				//비밀번호가 유효 하지 않다는 의미에서 false 를 넣어준다.
 				isPwdValid=false;
 			}
-			checkForm();
+			checkForm(); //버튼 활성화 여부
 		};
 		
-		document.querySelector("#pwd").addEventListener("input", checkPwd);
+		document.querySelector("#pwd").addEventListener("input", checkPwd); //입력시 함수가 실행되는 코드
 		document.querySelector("#pwd2").addEventListener("input", checkPwd);
 		
 		//이메일을 검증한 표현식

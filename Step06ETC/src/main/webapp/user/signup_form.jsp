@@ -23,7 +23,7 @@
 				<label for="id">아이디</label>
 				<input type="text" name="id" id="id" />
 				<small>영문자 소문자로 시작하고 5~10글자 이네로 입력하세요!</small>
-				<div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>				
+				<div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>		
 			</div>
 			<button type="submit">가입</button>
 		</form>

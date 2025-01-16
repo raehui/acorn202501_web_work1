@@ -17,14 +17,16 @@
 				<label class="form-label" for="id">아이디</label>
 				<input class="form-control" type="text" name="id" id="id" /> <%--is-invalid or valid는 유효한지의 상태를 알려줌--%>
 				<small class="form-text">영문자 소문자로 시작하고 5~10글자 이네로 입력하세요!</small>
-				<div class="valid-feedback">잘 입력했군요!짱구가 아니네요~</div> <%--유효할 때 보여주는 text --%>
-				<div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>	<%--유효하지 않을 때 보여주는 text --%>			
-			</div>
+				<div class="valid-feedback">잘 입력했군요!짱구가 아니네요~</div> 
+				<%--유효할 때(input 클래스속성이 valid일 때) 보여주는 text --%>
+				<div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>	
+				<%--유효하지 않을 때(=input 클래스속성이 invalid일 때)보여주는 text --%>			
+			</div> 
 			<button class="btn btn-success" type="submit" disabled="disabled">가입</button>
 		</form>
 	</div>
 	<script>
-		//state (상태)값을 관리하는 변수 , 상태가 여러가지면 문자, 숫자 등등 사용함
+		//state(상태)는 분기를 나누기 위해 존재
 		//아이디 유효성 여부를 관리할 변수를 만들고 초기값 부여
 		let isIdValid=false;
 		//비밀번호 유효성 여부를 관리할 변수를 만들고 초기값 부여
@@ -58,8 +60,6 @@
 		}
 		*/
 		
-		
-		
 		//아이디를 검증할 정규표현식
 		const reg_id=/^[a-z].{4,9}$/; //대부분의 시작과 끝을 표시해야 한다.
 		//정규표현식이 아니면 제출을 막게끔
@@ -68,6 +68,7 @@
 		//id를 입력할 때마다 실행할 함수 등록
 		document.querySelector("#id").addEventListener("input",(event)=>{
 			//일단 is-valid, is-invalid 클래스를 모두 지우고
+			//첫 글자를 입력하는 순간에는 코드가 실행되도 영향을 끼치지 않는다.
 			event.target.classList.remove("is-valid","is-invalid")
 			//현재까지 입력한 아이디를 읽어온다.
 			let inputId=event.target.value;
@@ -77,7 +78,7 @@
 					어떤 요소에 클래스를 추가하는 방법
 					.classList.add("클래스명")
 				*/
-				event.target.classList.add("is-invalid");
+				event.target.classList.add("is-invalid"); //요소에서 valid-feedback를 화면에 보여준다.
 				//아이디 상태값 변경
 				isIdValid=false;
 			}else{
@@ -88,17 +89,7 @@
 			//상태값을 이용해서 UI를 변경하는 함수 호출
 			checkForm();
 			
-		});
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		});	
 		
 	</script>
 </body>

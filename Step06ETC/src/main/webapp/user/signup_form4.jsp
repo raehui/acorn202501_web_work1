@@ -49,6 +49,7 @@
 			//폼 전체의 유효성 여부에 따라 분기한다 (지금은 id 유효성 여부만)
 			if(isIdValid && isPwdValid &&isEmailValid){
 				// type 속성이 submit 인 요소를 찾아서 disabled 속성을 제거한다.
+				//여기서는 [type=sumbit]은 버튼을 뜻함
 				document.querySelector("[type=submit]").removeAttribute("disabled");
 			}else{
 				// type 속성이 submit 인 요소를 찾아서 disabled="disabled" 속성을 추가한다.
@@ -91,14 +92,14 @@
 				event.target.classList.remove("is-valid", "is-invalid");
 				//만일 사용할 수 잇는 아이디라면
 				if(data.canUse){
-					document.querySelector("#id").classList.add("is-valid");
+					document.querySelector("#id").classList.add("is-valid"); //요소에서 valid-feedback를 화면에 보여준다.
 					//사용할 수 있는 아이디라는 의미에서 true 를 넣어준다.
 					isIdValid=true;
 				}else{
 					event.target.classList.add("is-invalid");
 					isIdValid=false;
 				}
-				checkForm();
+				checkForm(); //입력하면서 마지막으로 버튼 활성화 
 			});
 			
 		});
