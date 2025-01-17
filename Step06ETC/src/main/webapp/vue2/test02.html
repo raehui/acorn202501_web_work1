@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/vue2/test02.html</title>
+</head>
+<body>
+	<div id="app">
+		<h1>이벤트 처리</h1>
+		<button v-on:click="clicked">{{count}}</button>
+		<button @click="clicked2">{{count2}}</button>
+		<p>
+			<button v-on:click="minus">-</button>
+			<strong>{{num}}</strong> <!-- methods로 model 제어함 -->
+			<button @click="plus">+</button>			
+		</p>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				count:0,
+				count2:0,
+				num:0
+				
+			},
+			methods:{
+				clicked:function(){
+					//모델을 수정하면 UI 에는 자동 반영
+					this.count=this.count+1;					
+				},
+				//키값(){}도 작성 가능함
+				clicked2(){
+					this.count2++;
+				},
+				minus:function(){
+					this.num--;
+				},
+				plus(){
+					this.num++;
+				}
+				
+			}
+		});
+	</script>
+</body>
+</html>

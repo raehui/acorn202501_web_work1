@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/vue2/test05.html</title>
+<style>
+	.box{
+		width: 100px;
+		height: 100px;
+		border: 1px solid red;
+	}
+	.bigger{
+		width: 200px;
+		height: 200px;
+	}
+	.yellow-bg{
+		background-color:yellow;
+	}
+</style>
+</head>
+<body>
+	<div class="container" id="app">
+		<h1>클래스 추가 및 제거</h1> 
+		<div v-bind:class="['box','bigger','yellow-bg']">box1</div> <!-- div 요소에 class요소 css 추가하니 -->
+		<div v-bind:class="classArray">box2</div>
+		<div v-bind:class="{box:true,bigger:true,'yellow-bg':true}">box3</div> <!-- -는 빼기로 인식하기에''작성함 -->
+		<div v-bind:class="classObject">box4</div>
+		 
+		<h3>체크박스로 class 제어하기</h3>
+		<label>
+			<input type="checkbox"  v-model="isBox"/>box <!-- input 을 laebl 로 감싸면 글씨 클릭해도 체크 -->
+		</label>
+		<label>
+			<input type="checkbox" v-model="isYellow" />yellow-bg
+		</label>
+		
+		<p>isBox: <strong>{{isBox}}</strong> </p>
+		<p>isYellow: <strong>{{isYellow}}</strong></p>
+		
+		<div :class="{box:isBox, 'yellow-bg':isYellow}">box5</div>
+		
+	
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				classArray:['box','bigger','yellow-bg'],
+				classObject:{box:true,bigger:true,'yellow-bg':true},
+				isBox:false,
+				isYellow:false,
+				
+			}
+		});
+	</script>
+</body>
+</html>

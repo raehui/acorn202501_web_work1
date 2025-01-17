@@ -23,6 +23,7 @@
 			const data=new FormData(e.target); //e.target은 form 의 참조값이다. 파라미터가 들어가지 않은 찐 form의 참조값
 			//FormData를 이용해서 query string 얻어내기
 			//form의 참조값을 string로
+			//즉 -> id=user123&pwd=mypassword
 			const queryString=new URLSearchParams(data).toString();
 			//query string 을 콘솔에 출력하기
 			console.log(queryString);

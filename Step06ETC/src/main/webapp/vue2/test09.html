@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/vue2/test09.html</title>
+</head>
+<body>
+	<div class="container" id="app">
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>주소</th>
+				</tr>
+			</thead>
+			<tbody><!-- CSR로 자기가 랜더링 한 거임, 웹브라우저가 생성함 vs SSR : 서버에서 이리 만들어진 데이터를 보내줌 -->
+				<tr v-for="tmp in members">
+					<td>{{tmp.num}}</td>
+					<td>{{tmp.name}}</td>
+					<td>{{tmp.addr}}</td>					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				members:[]
+			},
+			created(){
+				//vuejs 가 초기화 되었을 때 호출되는 함수 
+				//vue가 완성되었을 때 초기화 작업
+				//렌러링에 필요한 데이터를 서버로 부터 받아온다.
+				fetch("members.jsp") //페이지에 요청하고 응답을 받아오기
+				.then(res=>res.json())
+				.then(data=>{
+					//data는 [{},{},{}] 형식의 배열이다.
+					this.members=data;
+					
+				})
+				//예외 추가하기
+				.catch(error=>{
+						console.log("에러정보"+error);
+				});
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/vue2/test08.html</title>
+</head>
+<body>
+	<div class="container" id="app">
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>주소</th>
+				</tr>
+			</thead>
+			<tbody><!-- CSR로 자기가 랜더링 한 거임, 웹브라우저가 생성함 vs SSR : 서버에서 이리 만들어진 데이터를 보내줌 -->
+				<tr v-for="tmp in members">
+					<td>{{tmp.num}}</td>
+					<td>{{tmp.name}}</td>
+					<td>{{tmp.addr}}</td>					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				members:[
+					{num:1,name:"김구라",addr:"노량진"},
+					{num:2,name:"해골",addr:"행신동"},
+					{num:3,name:"원숭이",addr:"동물원"}	
+				]
+			}
+		});
+	</script>
+</body>
+</html>
