@@ -24,7 +24,7 @@
 			</div>
 			<div class="mb-2">
 				<label class="form-label" for="pwd">비밀번호</label>
-				<input :class="{'is-valid':isPwdValid, 'is-invalid':isPwdValid && isPwdDirty}" 
+				<input :class="{'is-valid':isPwdValid, 'is-invalid':!isPwdValid && isPwdDirty}" 
 				@input="onPwdInput"
 				v-model="pwd" class="form-control" type="password" name="pwd" id="pwd"/>
 				<small class="form-text">특수 문자를 하나 이상 조합하세요.</small>
@@ -62,29 +62,25 @@
 			methods:{
 				onPwdInput(){
 					this.isPwdDirty=true;
-					
-					
 					//함수를 미리 만들어서
-					const checkPwd = ()=>{
+
 						const reg_pwd=/[\W]/;
 						//일단 정규표현식을 만족하는지 확인해서 만족하지 않으면 함수를 여기서 종료(return) 해야 한다.
 						//만일 첫번째 비밀번호가 정규표현식을 통과하지 못하거나 또는 
 						//두번째 비밀번호가 정규표현식을 통과하지 못한다면 isPwdValid 를 false 로 변경하고 checkForm() 호출
 						if(!reg_pwd.test(this.pwd) || !reg_pwd.test(this.pwd2)){
-							isPwdValid=false;
+							this.isPwdValid=false;
 							return;
 						}
 						//양쪽에 입력한 비밀번호가 같은지 확인해서 같으면 isPwdValid 를 true 
 						// 다르면 isPwdValid 를 false 로 변경하고 checkForm() 호출 
 						if(this.pwd == this.pwd2){
-		
 							//비밀번호가 유효 하다는 의미에서 true 를 넣어준다.
-							isPwdValid=true;
+							this.isPwdValid=true;
 						}else{
 							//비밀번호가 유효 하지 않다는 의미에서 false 를 넣어준다.
-							isPwdValid=false;
+							this.isPwdValid=false;
 						}
-					
 				},
 
 				
