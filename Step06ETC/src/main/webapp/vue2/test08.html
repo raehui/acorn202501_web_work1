@@ -14,7 +14,8 @@
 					<th>주소</th>
 				</tr>
 			</thead>
-			<tbody><!-- CSR로 자기가 랜더링 한 거임, 웹브라우저가 생성함 vs SSR : 서버에서 이리 만들어진 데이터를 보내줌 -->
+			<tbody>
+			<!-- CSR로 자기가 랜더링 한 거임, 웹브라우저가 생성함 vs SSR : 서버에서 이리 만들어진 데이터를 보내줌 -->
 				<tr v-for="tmp in members">
 					<td>{{tmp.num}}</td>
 					<td>{{tmp.name}}</td>

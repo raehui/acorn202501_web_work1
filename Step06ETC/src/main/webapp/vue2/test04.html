@@ -11,16 +11,17 @@
 			<input type="text" name="msg" placeholder="메세지 입력..." />
 			<button type="submit">전송</button>
 		</form>
+		<!-- 버튼을 누르면 send.jsp로 데이터를 body에 담고 보낸다. -->
 		
 		<h1>form submit 이벤트 처리2</h1>
 		<form action="send.jsp" method="post" @submit.prevent="onSubmit2">
+		<!-- submit의 동작을 막고 onSubmit2를 실행한다. -->
 			<input type="text" name="msg" placeholder="메세지 입력..." />
 			<button type="submit">전송</button>
 		</form>		
 		         
 		<p>fromServer: <strong>{{message}}</strong></p>
 	</div>
-		
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 		<script>
 			//위의 form 에서 전송 버튼을 눌렀을 대 폼의 제출을 막아 보세요
@@ -30,7 +31,7 @@
 					message:""
 				},
 				methods:{
-					onSubmit(event){ //이 폼에 submit 이벤트가 발생했을 때 기본 동작을 막아야 함, 동작이지 요소가 아님?
+					onSubmit(event){ 
 						event.preventDefault();
 					},
 				
@@ -38,11 +39,14 @@
 						//여기서 event.target 는 form요소의 참조값
 						
 						//폼에 입력한 내용을 모두 FormData 객체에 담기
-						const data=new FormData(event.target);
 						//FormData를 이용해서 query string 얻어내기
-						//
+						const data=new FormData(event.target);
+						
+						//msg=???로 서버에 보내기 쉽게 변경됨
 						const queryString=new URLSearchParams(data).toString();
+						
 						//action 속성의 value
+						//목적지를 url 상수에 담음
 						const url=event.target.action; //"send.jsp"
 						
 						fetch(url, {

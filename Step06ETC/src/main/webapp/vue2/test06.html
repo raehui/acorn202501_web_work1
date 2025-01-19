@@ -9,9 +9,12 @@
 		<h3>vue js에서 인라인 css 조작하기</h3>
 		<!-- 인라인 css를 동적으로 구현하기 -->
 		<p v-bind:style="{color:'red', fontSize:'30px'}">p1 입니다</p>
+		<!-- v-bind:style은 객체나 문자열로 전달해야 한다. -->
+		<p v-bind:style="'color:red;'">p1 입니다</p>
+		
 		
 		<h3>css를 동적으로 변경하기</h3>
-		
+		<!-- vue에서 동저으로 변경하기 위해서는 데이터를 모델에서 관리해야 함 -->
 		글자 크기<input type="range" v-model="fontSize" min="10" max="100" step="1" />
 		<br />
 		<input type="color" v-model="color" />
@@ -20,6 +23,7 @@
 			<br />
 			글자 색상 : <strong>{{color}}</strong>
 		</p>
+		
 		<h3>모델 object 를 이용해서 css 적용하기</h3>
 		<div :style="styleObj">box</div>
 		

@@ -27,8 +27,9 @@
 		</select>
 		<p>나는 <strong>{{food}}</strong>을(를) 좋아해요!</p>
 		<h3>노란 박스</h3>
-		<input type="checkbox" v-model="isShow" /> 보이게하기 <!-- 체크박스의 동작의 데이터를 Vue 에서 관리 -->
-		<div class="box" v-show="isShow"></div> <!-- v-xxx가 vue가 하는 동작 -->
+		<input type="checkbox" v-model="isShow" /> 보이게하기 <!-- 체크박스의 동작의 데이터를 Vue 에서 관리/ -->
+		<div class="box" v-show="isShow"></div> 
+		<!-- v-xxx가 vue가 하는 동작/ 화면에 보일지 말지 결정하되 그 데이터는 체크박스에서 갖고옴 -->
 		
 		<h3>목록 출력</h3>
 		<button v-on:click="change" >동물로 변경</button>
