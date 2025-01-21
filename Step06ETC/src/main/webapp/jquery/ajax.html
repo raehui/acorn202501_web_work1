@@ -19,7 +19,7 @@
 			$.ajax({
 				url:"send.jsp",
 				method:"post",
-				data:{msg}, //object의 키값이 파라미터명이 된다.  
+				data:{msg}, //object의 키값이 파라미터명이 된다. "msg="+msg 도 가능함(쿼리 문자열)  
 				success:(res)=>{
 					console.log(res);
 				}
