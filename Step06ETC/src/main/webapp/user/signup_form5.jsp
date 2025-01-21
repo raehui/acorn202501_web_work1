@@ -25,15 +25,15 @@
 			<div class="mb-2">
 				<label class="form-label" for="pwd">비밀번호</label>
 				<input :class="{'is-valid':isPwdValid, 'is-invalid':!isPwdValid && isPwdDirty}" 
-				@input="onPwdInput"
-				v-model="pwd" class="form-control" type="password" name="pwd" id="pwd"/>
+					@input="onPwdInput"
+					v-model="pwd" class="form-control" type="password" name="pwd" id="pwd"/>
 				<small class="form-text">특수 문자를 하나 이상 조합하세요.</small>
 				<div class="invalid-feedback">비밀 번호를 확인 하세요</div>
 			</div>
 			<div class="mb-2">
 				<label class="form-label" for="pwd2">비밀번호 확인</label>
 				<input @input="onPwdInput" 
-				v-model="pwd2" class="form-control" type="password"  id="pwd2"/>
+					v-model="pwd2" class="form-control" type="password"  id="pwd2"/>
 			</div>		
 			<div class="mb-2">
 				<label class="form-label" for="email">이메일</label>
@@ -60,10 +60,10 @@
 				pwd2:""
 			},
 			methods:{
-				onPwdInput(){
+				onPwdInput(){ //{onPwdInput : function(){}}
 					this.isPwdDirty=true;
 					//함수를 미리 만들어서
-
+						// 특수문자 포함 여부
 						const reg_pwd=/[\W]/;
 						//일단 정규표현식을 만족하는지 확인해서 만족하지 않으면 함수를 여기서 종료(return) 해야 한다.
 						//만일 첫번째 비밀번호가 정규표현식을 통과하지 못하거나 또는 
@@ -72,6 +72,8 @@
 							this.isPwdValid=false;
 							return;
 						}
+						
+						//위를 통과 했다면 여기서는 비밀번호가 같은지 여부를 알아내서 유효성 여부에 반영한다.
 						//양쪽에 입력한 비밀번호가 같은지 확인해서 같으면 isPwdValid 를 true 
 						// 다르면 isPwdValid 를 false 로 변경하고 checkForm() 호출 
 						if(this.pwd == this.pwd2){

@@ -11,4 +11,4 @@ CREATE TABLE users(
 );
 
 -- 회원번호를 얻어낼 시퀀스
-CREATE SEQUENCE user_seq;
+CREATE SEQUENCE users_seq;
