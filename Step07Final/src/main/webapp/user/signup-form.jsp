@@ -109,6 +109,7 @@
 						return;
 					}
 					//fetch() 함수를 이용해서 get 방식으로 입력한 아이디를 보내고 사용가능 여부를 json 으로 응답받는다.
+					//inputUserName은 현재까지 입력한 아이디
 					fetch("${pageContext.request.contextPath }/user/checkid.jsp?userName="+inputUserName)
 					.then(res=>res.json())
 					.then(data=>{		
