@@ -36,6 +36,7 @@
 	}
 	
 	//로그인 후에 가야할 목적지 정보
+	//인덱스에서 들어오면 인덱스 페이지가 url임
 	String url=request.getParameter("url");
 	//로그인 실패를 대비해서 목적지 정보를 인코딩한 결과도 준비한다.
 	String encodedUrl=URLEncoder.encode(url,"UTF-8");
@@ -58,6 +59,10 @@
 				<a href="<%=url%>">확인</a>
 			</p>
 		<%}else { %>
+			<%--
+				실패하면 로그인폼으로 돌아감 하지만 이전에 접속했던 페이지 정보를 url이라는 파라미터에 담아서 다시 시도한다.
+				그리고 성공하면 url파라미터에 담긴 곳으로 이동함
+			 --%>
 			<p>
 				아이디 혹은 비밀 번호를 확인하세요!
 				<a href="${pageContext.request.contextPath}/user/login-form.jsp?url="<%=encodedUrl %> >다시 입력</a>
