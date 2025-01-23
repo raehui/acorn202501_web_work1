@@ -4,6 +4,7 @@
 	//GET 방식 파라미터 url 이라는 이름으로 전달되는 값이 있는지 읽어와 본다.
 	String url=request.getParameter("url");
 	//만일 넘어오는 값이 없다면
+	//인덱스에서 로그인으로 넘어오면 url 파라미터는 존재하지 않음
 	if(url==null){
 		//로그인 후에 인덱스 페이지로 갈 수 있도록 한다.
 		String cPath=request.getContextPath();
