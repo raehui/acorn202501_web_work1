@@ -33,7 +33,11 @@
 	<div class="container">
 		<h3>회원 정보 수정 양식</h3>
 		<%--파일 업로드 때문에 서블릿으로 작업한다. --%>
-		
+		<%--경로가 서블릿으로 접속하게끔 설정되어있다. --%>
+		<%--
+			enctype="multipart/form-data"은 인코딩하는 방법을 설정한다. 
+			파일 업로드가 포함된 폼에는 반드시 작성
+		--%>
 		<form action="${pageContext.request.contextPath }/user/protected/update-profile" 
 			method="post" id="myForm" enctype="multipart/form-data">
 			<%--이미지만 입력할 수 있다.  --%>
@@ -57,6 +61,7 @@
 								<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
 							</svg>
 						<%}else{ %>
+						<%--alt는 속성의 접근성을 위해 작성 = 리더기 --%>
 							<img id="profileImage" src="${pageContext.request.contextPath}/upload/<%=dto.getProfileImage() %>" alt="프로필 이미지" />
 						<%} %>
 					</a>
@@ -71,8 +76,11 @@
 		//프로필이미지 출력란에 원래 있었던 html 을 변수에 담아 두었다가
 		const saved=document.querySelector("#profileLink").innerHTML;
 		//취소 버튼을 누르면
+		//html의 reset type의 버튼은 input type의 초기값을 기억하는 기능이 내재되어 있음.
+		//그렇기 때문에 자동으로 복구되는 것이다.
 		document.querySelector("#myForm").addEventListener("reset", ()=>{
 			//변수에 담아둔 내용을 이용해서 원상 복구 시킨다.
+			//이미지 담아둔 영역에만 초기값을 집어넣는다.
 			document.querySelector("#profileLink").innerHTML=saved;
 		});
 		
@@ -87,13 +95,13 @@
 		document.querySelector("#profileFile").addEventListener("change", (e)=>{
 			console.log("hi")
 			//선택된 파일 배열 객체를 얻어낸다.
-			//선택한 파일이 여러개가 되니 배열에 저장
-			const files = e.target.files;
+			//e.target는 이미지가 아닌 파일의 정보를 가지고 옴
+			const files = e.target.files; //사용자가 선택한 이미지의 파일 정보를 배열에 담는다.
 			//만일 파일 데이터가 존재한다면
 			if(files.length > 0){
 				//파일로 부터 데이터를 읽어들일 객체 생성
 				const reader=new FileReader();
-				//로딩이 완료(파일데이터를 모드 읽었을때) 되었을때 실행할 함수 등록
+				//로딩이 완료(파일데이터를 모두 읽었을때) 되었을때 실행할 함수 등록
 				//파일을 다 읽으면 함수가 실행된다.
 				//끝나는 시점에 이제 실행되는 함수를 등록함(다 읽어왔을 때의 시점을 맞추기 위해서  .onload)
 				//다 읽은 결과는 event로 들어온다.

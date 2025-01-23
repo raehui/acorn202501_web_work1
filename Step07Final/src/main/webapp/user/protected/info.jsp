@@ -57,7 +57,8 @@
 							</svg>
 						</c:when>
 						<c:otherwise>
-						<%--dto의 프로파일 이미지의   --%>
+						<%--서블릿을 통해 사진을 올렸을 때 생성되는 파일 경로인 upload에서 사진을 가지고 옴 --%>
+						<%--처음에는 기본 이미지가 나오고 수정 후에는 설정한 프로필 사진이 나옴 --%>
 							<img src="${pageContext.request.contextPath}/upload/${dto.profileImage}" id="profileImage" alt="프로필 이미지"/>
 						</c:otherwise>
 					</c:choose>
