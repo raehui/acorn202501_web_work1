@@ -25,6 +25,7 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         // session 영역에서 로그인된 정보를 얻어내기 위한 객체
+        //jsp 에서는 session이 기본객체지만 여기서는 아님
         HttpSession session = req.getSession();
         // session 영역에 SessionDto 라는 키값으로 저장된 값이 있으면 얻어내서 원래 type으로 casting
         SessionDto dto = (SessionDto) session.getAttribute("sessionDto");
@@ -53,7 +54,7 @@ public class LoginFilter implements Filter {
             return;
         }
 
-        // 여기까지 실행의 흐름이 넘어오면 요청의 흐름을 계속 이어간다.
+        // 여기까지 실행의 흐름이 넘어오면 요청의 흐름을 계속 이어간다.(개입을 하지 않고)
         // 경로가 /admin이고 실제 admit이거나   /staff이거나 실제 staff이거나 /user이면 흐름을 계속 이어간다.
         chain.doFilter(request, response);
     }
