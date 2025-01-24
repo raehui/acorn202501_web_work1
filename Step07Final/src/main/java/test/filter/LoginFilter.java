@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import test.user.dto.SessionDto;
 
-@WebFilter({"/member-only/*","/staff/*","/admin/*","/user/protected/*"}) 
+@WebFilter({"/member-only/*","/staff/*","/admin/*","/user/protected/*","/post/protected/*"}) 
 public class LoginFilter implements Filter {
 	//@WebFilter()에 명시한 패턴의 요청을 하면 아래의 메소드가 호출된다.
 	@Override
