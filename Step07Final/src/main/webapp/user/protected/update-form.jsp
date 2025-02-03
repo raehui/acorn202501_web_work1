@@ -115,6 +115,7 @@
 					document.querySelector("#profileLink").innerHTML=img;
 				};
 				//파일을 DataURL 형식의 문자열로 읽어들이기
+				//서버에 올리지 않고 웹브라우저에서 바로 읽어들인 파일을 볼 수 있음
 				reader.readAsDataURL(files[0]);
 				
 			}

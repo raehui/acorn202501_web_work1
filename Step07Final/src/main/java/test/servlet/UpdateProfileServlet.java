@@ -73,19 +73,19 @@ public class UpdateProfileServlet extends HttpServlet {
 			Files.copy(is,  Paths.get(filePath));
 			
 			//기존에 업로드 파일이 있다면 기존 파일을 삭제한다.
-			if(hasProfileImage) {
-				String deleteFilePath=uploadPath + File.separator+dto.getProfileImage();
-				//File 객체를 이용해서 삭제
+			if (hasProfileImage) {
+				String deleteFilePath = uploadPath + File.separator + dto.getProfileImage();
+				// File 객체를 이용해서 삭제
 				new File(deleteFilePath).delete();
 			}
-			//새롭게 업로드된 파일의 이름을 dto 에 담는다. 
-			dto.setProfileImage(saveFileName);	
-			//여기서는 프로필 이미지를 수정해야한다. 
-			//이메일과 프로필을 동시에 수정하는 메서드
+			// 새롭게 업로드된 파일의 이름을 dto 에 담는다.
+			dto.setProfileImage(saveFileName);
+			// 여기서는 프로필 이미지를 수정해야한다.
+			// 이메일과 프로필을 동시에 수정하는 메서드
 			UserDao.getInstance().updateEmailProfile(dto);
-		}else {//선택한 프로필 이미지가 없는 경우 
-			//여기서는 프로필 이미지가 수정되면 안된다.
-			//이메일을 수정하는 메서드
+		} else {// 선택한 프로필 이미지가 없는 경우
+				// 여기서는 프로필 이미지가 수정되면 안된다.
+				// 이메일을 수정하는 메서드
 			UserDao.getInstance().updateEmail(dto);
 		}
 		//개인정보 폼으로 바로 리다일렉트한다.
