@@ -22,40 +22,59 @@ public class PostDao {
         return dao;
     }
 	//글의 갯수를 리턴하는 메소드
-	public int getCount() {
-		int count=0;
-		//필요한 객체를 담을 지역변수를 미리 만들어 둔다. 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			//Connection Pool 에서 Connection 객체를 하나 얻어온다.
-			conn = new DbcpBean().getConn();
-			//실행할 sql 문의 뼈대 구성하기
-			String sql = "SELECT MAX(ROWNUM) AS num FROM posts";
-			//sql 문의 ? 에 바인딩 할게 있으면 한다.
-			pstmt = conn.prepareStatement(sql);
-			//SELECT 문을 수행하고 결과값을 받아온다.
-			rs = pstmt.executeQuery();
-			//ResultSet 에서 필요한 값을 얻어낸다.
-			if (rs.next()) {
-				count=rs.getInt("num");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close(); //Connection Pool 에 Connection 반납하기
-			} catch (Exception e) {
-			}
-		}
-		return count;
-	}
+    public int getCount(PostDto dto) {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbcpBean().getConn();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT COUNT(*) AS count FROM posts ");
+
+            // 검색 조건 추가
+            if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
+                if (dto.getCondition().equals("title_content")) {
+                    sql.append("WHERE title LIKE ? OR content LIKE ? ");
+                } else {
+                    sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                }
+            }
+
+            pstmt = conn.prepareStatement(sql.toString());
+
+            int paramIndex = 1;
+            if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
+                if (dto.getCondition().equals("title_content")) {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                } else {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                }
+            }
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return count;
+    }
+
     
 	//삭제한 글에 대한 참조를 삭제하는 메소드
 	public boolean deleteRef(int num) {
@@ -189,6 +208,76 @@ public class PostDao {
 		return rowCount>0;
 	}
     
+	public PostDto getData(PostDto dto) {
+	    PostDto data = null;
+
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try {
+	        conn = new DbcpBean().getConn();
+
+	        StringBuilder sql = new StringBuilder();
+	        sql.append("SELECT * FROM ");
+	        sql.append("(SELECT num, writer, title, content, viewCount, ");
+	        sql.append("TO_CHAR(createdAt, 'YYYY.MM.DD HH24:MI') AS createdAt, ");
+	        sql.append("LAG(num, 1, 0) OVER (ORDER BY num DESC) AS prevNum, ");
+	        sql.append("LEAD(num, 1, 0) OVER (ORDER BY num DESC) AS nextNum ");
+	        sql.append("FROM posts ");
+
+	        // 검색 조건 및 키워드 추가
+	        if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
+                if (dto.getCondition().equals("title_content")) {
+                    sql.append("WHERE title LIKE ? OR content LIKE ? ");
+                } else {
+                    sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                }
+	        }
+
+	        sql.append(") WHERE num = ?");
+
+	        pstmt = conn.prepareStatement(sql.toString());
+
+	        int paramIndex = 1;
+	        if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
+	        	if (dto.getCondition().equals("title_content")) {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                } else {
+                    pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                }
+	        }
+	        pstmt.setLong(paramIndex, dto.getNum());
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            data = new PostDto();
+	            data.setNum(rs.getInt("num"));
+	            data.setWriter(rs.getString("writer"));
+	            data.setTitle(rs.getString("title"));
+	            data.setContent(rs.getString("content"));
+	            data.setViewCount(rs.getInt("viewCount"));
+	            data.setCreatedAt(rs.getString("createdAt"));
+	            data.setPrevNum(rs.getInt("prevNum"));
+	            data.setNextNum(rs.getInt("nextNum"));
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return data;
+	}
+
+	
 
     public PostDto getData(long num) {
         PostDto dto = null;
@@ -313,61 +402,74 @@ public class PostDao {
         return rowCount > 0;
     }
     
-	public List<PostDto> getList(PostDto dto){
-		
-		List<PostDto> list=new ArrayList<>();
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = new DbcpBean().getConn();
-			//select 문의 뼈대 구성하기
-			String sql = """
-			    SELECT *
-			    FROM
-			        (SELECT result1.*, ROWNUM AS rnum
-			        FROM
-			            (SELECT num,writer,title,viewCount, TO_CHAR(createdAt, 'YYYY.MM.DD HH24:MI') AS createdAt
-			            FROM posts
-			            ORDER BY num DESC) result1)
-			    WHERE rnum BETWEEN ? AND ?
-			""";
+    public List<PostDto> getList(PostDto dto) {
+        List<PostDto> list = new ArrayList<>();
 
-			pstmt = conn.prepareStatement(sql);
-			//? 에 값 바인딩 할게 있으면 하기
-			pstmt.setInt(1, dto.getStartRowNum());
-			pstmt.setInt(2, dto.getEndRowNum());
-			//sql 문 수행하고 ResultSet 객체 얻어내기
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				//select 된 row 하나의 정보를 PostDto 객체를 생성해서 담고 
-				PostDto tmp=new PostDto();
-				tmp.setNum(rs.getInt("num"));
-				tmp.setWriter(rs.getString("writer"));
-				tmp.setTitle(rs.getString("title"));
-				tmp.setViewCount(rs.getInt("viewCount"));
-				tmp.setCreatedAt(rs.getString("createdAt"));
-				//PostDto 객체의 참조값을 List 에 누적 시키기
-				list.add(tmp);
-			}
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = new DbcpBean().getConn();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-			}
-		}
-		return list;
-	}
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT * FROM ");
+            sql.append("(SELECT result1.*, ROWNUM AS rnum FROM ");
+            sql.append("(SELECT num, writer, title, viewCount, TO_CHAR(createdAt, 'YYYY.MM.DD HH24:MI') AS createdAt FROM posts ");
+            //만일 검색 조건이 있다면 
+            //isEmpty 는 빈문자열
+            if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
+                //조건에 맞는 where  절을 구성한다.
+            	if (dto.getCondition().equals("title_content")) {
+                    sql.append("WHERE title LIKE ? OR content LIKE ? ");
+                } else {
+                	//title, writer 일수도 있음
+                    sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
+                }
+            }
+
+            sql.append("ORDER BY num DESC) result1) WHERE rnum BETWEEN ? AND ?");
+            //StringBuilder 에 누적된 내용을 String type 으로 얻어내서 sql 문을 실행한다.
+            pstmt = conn.prepareStatement(sql.toString());
+            //검색 키워드가 있다면 검색키워드에 관련된 값을 바인딩 한다. ?에 따라서 바인딩	
+            int paramIndex = 1;
+            if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
+            	 if (dto.getCondition().equals("title_content")) {
+            		 //증감연산자 따라서 첫번째 물음표 , 두번째 물음표
+                     pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                     pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                 } else {
+                     pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
+                 }
+            }
+            //페이징 처리에 관련된 값도 바인딩해서 
+            pstmt.setInt(paramIndex++, dto.getStartRowNum());
+            pstmt.setInt(paramIndex, dto.getEndRowNum());
+
+            rs = pstmt.executeQuery();
+            //페이지에 보일 정보 dto에서 가져오기
+            while (rs.next()) {
+                PostDto tmp = new PostDto();
+                tmp.setNum(rs.getInt("num"));
+                tmp.setWriter(rs.getString("writer"));
+                tmp.setTitle(rs.getString("title"));
+                tmp.setViewCount(rs.getInt("viewCount"));
+                tmp.setCreatedAt(rs.getString("createdAt"));
+                list.add(tmp);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
 
     public List<PostDto> selectAll() {
         List<PostDto> list = new ArrayList<>();

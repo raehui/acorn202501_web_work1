@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/ajax/test.html</title>
+</head>
+<body>
+	<h3>member.jsp 페이지를 요청하는 예제</h3>
+	<a href="member.jsp">요청하기(페이지 전환이 일어난다)</a>
+	<br />
+	<button onclick="request()">요청하기(fetch 활용)</button>
+	<button onclick="request2()">요청하기(jquery 활용)</button>
+	<button onclick="request3()">요청하기(XMLHttpRequest 활용)</button>
+	<!-- jquery 로딩 -->
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script>
+		function request(){
+			//fetch() 함수를 이용해서 ajax 요청하기
+			fetch("http://192.168.0.107:8888/Step07Final/ajax/member.jsp")
+			.then(res=>res.json())
+			.then(data=>{
+				//응답된 정보는 함수의 매개변수에 전달된다.
+				console.log(data);
+			});
+			//응답을 기다리지 않고 먼저 찍힌다.(비동기)
+			console.log("fetch() 함수를 이용해서 요청했습니다.");
+		}
+		
+		function request2(){
+			//jquery 의 ajax() 함수를 이용해서 ajax 요청하기
+			$.ajax({
+				url:"member.jsp",
+				method:"get",
+				success:function(data){
+					console.log(data);
+				}
+			});
+			console.log("$.ajax() 함수를 이용해서 요청했습니다.");
+		}
+		
+		function request3(){
+			//요청객체를 생성
+			const xhr=new XMLHttpRequest();
+			
+			xhr.open("GET","member.jsp",true);
+			//응답 데이터 타입
+			xhr.responseType="json";
+			//성공적인 응답일 때 response 안에 자동으로 들어간 데이터를 불러옴
+			xhr.onload=function(){
+				if(xhr.status >=200 && xhr.status <300){
+					console.log(xhr.response);
+				}
+			}
+			//요청하기
+			xhr.send();
+		}
+	</script>
+</body>
+</html>
