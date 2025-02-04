@@ -10,6 +10,7 @@
 	String keyword=request.getParameter("keyword");
 	String findQuery=null;
 	//있다면 dto 에 해당 정보를 담는다.
+	//데이터를 담기 위해서 dto를 만듬
 	PostDto dto=new PostDto();
 	
 	if(condition != null){
@@ -60,6 +61,10 @@
 	//보여줄 페이지에 해당하는 글 목록을 얻어온다.
 	//검색조건이 들어 있을수도 있는 dto 를 메소드에 넘겨 주면서 글 목록을 얻어낸다.
 	List<PostDto> list=PostDao.getInstance().getList(dto);
+	/*
+		jsp 페이지에서 응답에 필요한 데이터를 el에서 활용할 수 있도록
+		request 객체에 특정 키값으로 담는다.
+	*/
 	request.setAttribute("list", list);
 	request.setAttribute("startPageNum", startPageNum);
 	request.setAttribute("endPageNum", endPageNum);
@@ -68,6 +73,9 @@
 	request.setAttribute("totalRow", totalRow);
 	request.setAttribute("dto", dto);
 	request.setAttribute("findQuery", findQuery);
+	
+	//어떤 키값으로 어떤 type 을 담았는지 기억하기
+	//request와 session은 기억할만한 데이터인가? 생각하기
 %>
 <!DOCTYPE html>
 <html>
