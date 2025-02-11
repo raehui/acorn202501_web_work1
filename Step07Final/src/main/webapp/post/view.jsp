@@ -298,7 +298,9 @@
 		document.querySelector(".comment-form").addEventListener("submit", (e)=>{
 			//폼 제출 막기 
 			e.preventDefault();
-			//폼에 작성된 내용을 이용해서 query 문자열을 얻어낸다. 
+			// 폼에 작성된 내용을 이용해서 query 문자열을 얻어낸다.
+			// e.target는 form을 나타낸다.
+			// 
 			const formData=new FormData(e.target);
 			const queryString = new URLSearchParams(formData).toString();
 			// fetch() 함수를 이용해서 댓글 정보를 페이지 전환 없이 서버에 전송한다.

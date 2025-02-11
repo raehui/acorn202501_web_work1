@@ -13,6 +13,7 @@ public class CommentDto {
 	//페이징 처리를 위한 필드
 	private int startRowNum;
 	private int endRowNum;
+	
 	public long getNum() {
 		return num;
 	}
