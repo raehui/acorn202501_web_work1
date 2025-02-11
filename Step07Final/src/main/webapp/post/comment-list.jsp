@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="test.post.dao.CommentDao"%>
 <%@page import="java.util.List"%>
@@ -30,8 +32,20 @@
 	dto.setStartRowNum(startRowNum);
 	dto.setEndRowNum(endRowNum);
 	
+	//전체 댓글의 갯수
+	int totalRow=CommentDao.getInstance().getCount(postNum);
+	// 전체 페이지의 갯수
+	int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+	
 	//pageNum 에 해당하는 댓글 목록을 얻어낸다.
 	List<CommentDto> list=CommentDao.getInstance().getList(dto);
+	//Gson 객체에 전달할 Map 객체를 구성한다.
+	//map 에 담아서 Gson 으로 전달하면 자동으로 {"totalPageCount": ,"list": [{}]} 변환한
+	//map 도 자동으로 {}으로 변경한다. 
+	Map<String,Object> map= new HashMap<>();
+	map.put("list", list);
+	map.put("totalPageCount", totalPageCount);
+	
 	Gson gson=new Gson();
 %>    
-<%=gson.toJson(list) %>
+<%=gson.toJson(map) %>
