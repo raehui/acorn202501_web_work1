@@ -8,6 +8,7 @@
     pageEncoding="UTF-8"%>
 <%
 // /post/comment-list./jsp
+	Thread.sleep(1000); //spinner 테스트를 위해 응답 시간을  3초 지연 시킨다.
 	// 응답을 json 형식으로
 	
 	//댓글의 페이지 번호
