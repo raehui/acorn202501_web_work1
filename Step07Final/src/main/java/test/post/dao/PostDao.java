@@ -401,7 +401,7 @@ public class PostDao {
         }
         return rowCount > 0;
     }
-    
+    //검색조건과 키워드에 따라서 sql문이 동적으로 변경된다.
     public List<PostDto> getList(PostDto dto) {
         List<PostDto> list = new ArrayList<>();
 
@@ -410,7 +410,7 @@ public class PostDao {
         ResultSet rs = null;
         try {
             conn = new DbcpBean().getConn();
-
+            
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT * FROM ");
             sql.append("(SELECT result1.*, ROWNUM AS rnum FROM ");
@@ -426,15 +426,16 @@ public class PostDao {
                     sql.append("WHERE ").append(dto.getCondition()).append(" LIKE ? ");
                 }
             }
-
+            
             sql.append("ORDER BY num DESC) result1) WHERE rnum BETWEEN ? AND ?");
             //StringBuilder 에 누적된 내용을 String type 으로 얻어내서 sql 문을 실행한다.
             pstmt = conn.prepareStatement(sql.toString());
-            //검색 키워드가 있다면 검색키워드에 관련된 값을 바인딩 한다. ?에 따라서 바인딩	
+            //검색조건,키워드에 따라서 동적으로 생성된 sql문에 바인딩하기위해서 작성했다.
             int paramIndex = 1;
             if (dto.getCondition() != null && dto.getKeyword() != null && !dto.getKeyword().isEmpty()) {
             	 if (dto.getCondition().equals("title_content")) {
             		 //증감연산자 따라서 첫번째 물음표 , 두번째 물음표
+            		 //제목 , 내용에서 키워드를 찾아야 하므로
                      pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
                      pstmt.setString(paramIndex++, "%" + dto.getKeyword() + "%");
                  } else {

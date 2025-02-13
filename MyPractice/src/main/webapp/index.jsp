@@ -13,6 +13,7 @@
 	<li><a href="fortune.jsp">오늘의 운세</a></li>
 	<li><a href="fortune">오늘의 운세는?</a></li>
 	<li><a href="member/list.jsp">운세 본 유저</a></li>
+	<li><a href="${pageContext.request.contextPath}/post/list.jsp">글 목록 보기</a></li>
 		
 	<!-- 폼요소는 경로, 전송 방법, 입력 박스, 버튼 모두 설정 -->
 	<form action="send.jsp" method="get">

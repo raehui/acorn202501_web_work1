@@ -47,3 +47,9 @@ create table comments(
 );
 
 create SEQUENCE comments_seq;
+
+
+
+
+
+
