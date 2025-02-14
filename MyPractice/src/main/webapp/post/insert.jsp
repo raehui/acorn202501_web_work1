@@ -33,19 +33,27 @@
 				<input type="text" name="title" id="title" />
 			</div>
 			<div id="editor" name="editor"></div>
+			<input type="hidden" name="content" id="content" />
 			<button class="mt-2" type="submit">제출하기</button>
 		</form>
 	</div>
 	<script>
+		
 		// Editor 클래스 얻어내기
 		const Editor = toastui.Editor;
-		 // Editor 객체 생성하면서 option 전달하기 
-        const editor = new Editor({
-            el: document.querySelector('#editor'), //어디에 Editor 를 만들것인지
-            height: '500px', // 높이 
-            initialEditType: 'wysiwyg', //Editor type 설정  markdown | wysiwyg 
-            previewStyle: 'vertical' //미리 보기 설정  vertical | tab
-        });
+		// Editor 객체 생성하면서 option 전달하기 
+		const editor = new Editor({
+			el : document.querySelector('#editor'), //어디에 Editor 를 만들것인지
+			height : '500px', // 높이 
+			initialEditType : 'wysiwyg', //Editor type 설정  markdown | wysiwyg 
+			previewStyle : 'vertical' //미리 보기 설정  vertical | tab
+		});
+		
+		document.querySelector("#diaryform").addEventListener("submit",()=>{
+				document.querySelector("#content").value=editor.getHTML();
+		});
+		
+		
 	</script>
 </body>
 </html>

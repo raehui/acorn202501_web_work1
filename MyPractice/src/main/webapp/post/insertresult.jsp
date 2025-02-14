@@ -3,10 +3,10 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
     
 <%
-	//작성한 글의 정보를 받아오고
+	//작성한 제목을 받아오고
 	String title=request.getParameter("title");
-	requ
-	System.out.println(editor);
+	//안에 작성한 컨텐츠 받아오기()
+	
 	//dao를 통해서 DB에 저장하기
 	
 	//성공여부 알람
