@@ -3,15 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <title>/static/index.html</title>
+<!-- 실제로 존재하는 파일에 대한 요청 경로 -->
+<link rel="stylesheet" href="/spring02/css/custom.css" />
 </head>
 <body>
 	<div class="container">
 		<h1>인덱스 페이지 입니다.</h1>
 		<ul>
+			<!-- 실제로 존재하지 않는 순수한 요청 경로 서블릿 혹은 컨트롤러를 생성해야 함 -->
 			<li><a href="/spring02/hello">Hello Spring Boot!</a></li>
 			<li><a href="/spring02/fortune">오늘의 운세</a></li>
 			<li><a href="/spring02/fortune1">오늘의 운세1</a></li>
 		</ul>
+		
 		<form action="/spring02/send" method="post">
 			<input type="text" name="msg" placeholder="메세지 입력.." />
 			<button type="submit">전송</button>
@@ -19,6 +23,26 @@
 		
 		<form action="/spring02/send2" method="post">
 			<input type="text" name="msg" placeholder="메세지 입력.." />
+			<button type="submit">전송</button>
+		</form>
+		
+		<form action="/spring02/send3" method="post">
+			<input type="text" name="num" placeholder="번호 입력..." />
+			<br />
+			<input type="text" name="name" placeholder="이름 입력..." />
+			<br />
+			<input type="text" name="addr" placeholder="주소 입력..." />
+			<br />
+			<button type="submit">전송</button>
+		</form>
+		
+		<form action="/spring02/send4" method="post">
+			<input type="text" name="num" placeholder="번호 입력..." />
+			<br />
+			<input type="text" name="name" placeholder="이름 입력..." />
+			<br />
+			<input type="text" name="addr" placeholder="주소 입력..." />
+			<br />
 			<button type="submit">전송</button>
 		</form>
 	</div>

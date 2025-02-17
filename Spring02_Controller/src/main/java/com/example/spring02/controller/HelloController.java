@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 클라이언트의 요청을 처리할 컨트롤러를 정의하고 bean 으로 만들기
  */
 // 왜 scan 이 되는가? com.example.spring02의 하위패키지이기 때문에..
+
+//요청을 처리하는 특별한 bean 
 @Controller
 public class HelloController {
 	@ResponseBody
@@ -19,7 +21,7 @@ public class HelloController {
 	
 	@ResponseBody
 	@GetMapping("/fortune1")
-	public String fortune1(){
+	public String fortune1(){	
 		return "당신의 마법사!";
 	}
 
