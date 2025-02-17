@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h1>공지 사항입니다.</h1>
+		<!--/*
+			th:each 를 이용해서 반복적으로 마크업을 출력할 수 있다.
+			noticeList는 List<String> type 이기 때문에 tmp는 String type 이다.
+			String type 이기 때문에 직접 출력이 가능하다.
+		*/-->
+		<ul>
+			<li th:each="tmp:${noticeList}">[[${tmp}]]</li>
+		</ul>
+		
+		<h1>공지 사항 입니다2</h1>
+		<ul>
+			<li th:each="tmp:${noticeList}" th:text="${tmp}"></li>
+		</ul>
+		
+		<h1>공지 사항 입니다3</h1>
+		<ul>
+			<li th:each="tmp, status: ${noticeList}">
+				<p>[[${tmp}]]</p>
+				<p>count : [[${status.count}]]</p>
+				<p>index: [[${status.index}]]</p>
+				<p>even : [[${status.even}]]</p>
+				<p>odd : [[${status.odd}]]</p>
+				<p>first : [[${status.first}]]</p>
+				<p>last : [[${status.last}]]</p>
+				<p>size: [[${status.size}]]</p>
+				<p>current: [[${status.current}]]</p>
+			</li>
+		</ul>
+		
+		<h1>공지 사항 입니다4 (status 활용)</h1>
+		<ul>
+			<li th:each="tmp,status:${noticeList}">
+				<p th:style="${status.odd ? 'background-color:yellow' : ''}">[[${tmp}]]</p>
+			</li>
+		</ul>
+		
+		
+	</div>
+</body>
+</html>
