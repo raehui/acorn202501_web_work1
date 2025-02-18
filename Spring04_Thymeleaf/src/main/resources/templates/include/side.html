@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>side.html</title>
+</head>
+<body>
+	<!--/* title 과 content 는 매개변수 역할을 한다.*/-->
+	<article th:fragment="article(title, content)" style="height: 200px; background-color: #cecece;">
+		<h1>[[${title}]]</h1>
+		<p>[[${content}]]</p>
+	</article>
+</body>
+</html>

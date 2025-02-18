@@ -11,8 +11,25 @@ import com.example.spring04.dto.MemberDto;
 @Controller
 public class TestController {
 	
+	@GetMapping("/unescape")
+	public String unescape(Model model) {
+		//html 형식의 문자열을 template 페이지에 전달할 일도 발생한다.
+		String html="""
+				<ul>
+					<li>하나</li>
+					<li>두울</li>
+				</ul>
+				""";
+		
+		model.addAttribute("content",html);
+		return "test/unescape";
+	}
+	
 	@GetMapping("/include")
-	public String include() {
+	public String include(Model model) {
+		
+		model.addAttribute("title","오늘의 인사");
+		model.addAttribute("content","안녕하세요!");
 		
 		return "test/include";
 	}

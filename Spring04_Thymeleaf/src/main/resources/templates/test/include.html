@@ -22,6 +22,18 @@
 	<div class="container">
 		<h1>Main Contents 입니다.</h1>
 		<p>안녕 나는 자두야...</p>
+		
+		<th:block th:insert="/include/side :: article('제목','내용')"></th:block>
+		<hr />
+		<th:block th:insert="/include/side :: article(content='내용2',title='제목2')"></th:block>
+		<hr />
+		<!--/*request 영역에 담긴 내용을 출력*/-->
+		<th:block th:insert="/include/side :: article(${title},${content})"></th:block>
+		<hr />
+		<th:block th:insert="/include/side :: article(title=${title},content=${content})"></th:block>
+		
+		
+		
 	</div>
 	
 </body>
