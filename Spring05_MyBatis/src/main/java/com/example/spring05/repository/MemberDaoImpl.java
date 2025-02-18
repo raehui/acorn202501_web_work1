@@ -45,7 +45,7 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public void update(MemberDto dto) {
 		// TODO Auto-generated method stub
-		session.delete("member.update",)
+		session.update("member.update",dto);
 	}
 
 	@Override

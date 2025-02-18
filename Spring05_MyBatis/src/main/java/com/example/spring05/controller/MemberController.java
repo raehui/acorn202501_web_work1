@@ -21,12 +21,10 @@ public class MemberController {
 	 * MemberDto 객체에 담긴체로 참조값이 전달된다.
 	 * 요소의 이름과 MemberDto의 필드명이 동일해야 한다. - request 담을 수고가 없음
 	 */
-	@GetMapping("/member/update")
-	public String update(MemberDto dto,Model model) {
-		// 수정하고 난 후의 정보를 dto 에 담아서 수정하기
-		model.addAttribute("dto",dto);		
-		
-		
+	@PostMapping("/member/update")
+	public String update(MemberDto dto) {
+		dao.update(dto);
+				
 		return "member/update";
 	}
 	
