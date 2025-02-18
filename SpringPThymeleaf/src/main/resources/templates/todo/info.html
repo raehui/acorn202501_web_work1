@@ -6,7 +6,12 @@
 </head>
 <body>
 	<div class="container">
-		
+		<p>
+			번호: <strong th:text="${dto.num}"></strong>
+			제목: <strong>[[${dto.title}]]</strong>
+			내용 : <strong th:text="${dto.content}"></strong>
+		</p>
+		<a th:href="@{/}">인덱스로</a>
 	</div>
 </body>
 </html>
