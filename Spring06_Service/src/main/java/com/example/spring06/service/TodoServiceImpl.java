@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 import com.example.spring06.dto.TodoDto;
 import com.example.spring06.repository.TodoDao;
 @Service
-public class TodoServiecImpl implements TodoService {
+public class TodoServiceImpl implements TodoService {
 	
 	@Autowired
 	private TodoDao dao;
 
 	@Override
 	public List<TodoDto> findAll() {
-		// TODO Auto-generated method stub
 		List<TodoDto> list=dao.getList();
 		return list;
 	}

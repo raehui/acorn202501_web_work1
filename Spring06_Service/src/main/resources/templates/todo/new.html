@@ -6,10 +6,10 @@
 </head>
 <body>
 	<div class="container">
-		<form th:action="@{/todo/insert}">
-			<label for="">할일</label>
+		<form th:action="@{/todo/insert}" method="post">
+			<label for="content">할일</label>
 			<input type="text" name="content" placeholder="할일을 입력하세요.." />
-			<button type="submit">제출하기</button>
+			<button type="submit">추가</button>
 		</form>
 	</div>
 </body>

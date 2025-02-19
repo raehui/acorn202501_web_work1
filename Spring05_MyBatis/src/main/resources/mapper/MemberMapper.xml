@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<!--/*list의 generic와 관련이 있음 resultType은 row 하나에 어떤 타입을 담는지 알려줌*/-->
+	<select id="getList" resultType="memberDto">
+		SELECT num,name,addr
+		FROM member
+		ORDER BY num ASC
+	</select>
+	
+	<!--/* result type은 담긴 데이터에 따라서 유동적으로 작성할 수 있다.
+		<select id="getList" resultType="java.lang.String">
+			SELECT name
+			FROM member
+			ORDER BY num ASC
+		</select>
+	*/-->
+	
+	<!--/*여기서 num의 이름은 중요하지 않다. 왜냐면 가져온 파라미터가 단 하나라서*/-->		
+	<select id="getData" parameterType="int" resultType="memberDto">
+		SELECT num,name,addr
+		FROM member
+		WHERE num=#{num}
+	</select>
+	
+	<!--/*dto에 있는 getter 메서드가 자동으로 실행된다.*/-->		
+	<insert id="insert" parameterType="memberDto">
+		INSERT INTO member
+		(num,name,addr)
+		VALUES(member_seq.NEXTVAL,#{name},#{addr})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM member
+		WHERE num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="memberDto">		
+		UPDATE member
+		SET name=#{name},addr=#{addr}
+		WHERE num=#{num}
+	</update>
+	
+
+	
+	
+</mapper>

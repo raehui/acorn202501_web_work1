@@ -34,7 +34,7 @@ public class TodoController {
 		return "todo/new";
 	}
 	
-	@GetMapping("/todo/insert")
+	@PostMapping("/todo/insert")
 	public String insert(TodoDto dto) {		
 		service.save(dto);
 		
