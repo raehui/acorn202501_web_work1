@@ -34,7 +34,7 @@ public class MemberDaoImpl implements MemberDao {
 		/*
 		 * Mapper 의 namespace : member
 		 * sql의 id : insert
-		 * parameter type : MemberDto
+		 * parameter type : MemberDto 
 		 * 
 		 * 파라미터의 타입이 여러개면 dto 혹은 Map , 즉 여기서는 name, addr이 담겨있다.
 		 */
@@ -44,13 +44,21 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public void update(MemberDto dto) {
-		// TODO Auto-generated method stub
+		/*
+		 * Mapper 의 namespace : member
+		 * sql의 id : update
+		 * parameter type : MemberDto 
+		 */
 		session.update("member.update",dto);
 	}
 
 	@Override
 	public void delete(int num) {
-		// TODO Auto-generated method stub
+		/*
+		 * Mapper 의 namespace : member
+		 * sql의 id : delete
+		 * parameter type : num
+		 */
 		session.delete("member.delete",num);
 	}
 

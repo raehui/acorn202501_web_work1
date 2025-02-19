@@ -2,15 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>update.html</title>
 </head>
 <body>
-	<div class="container">
-		<h3>알림</h3>
-		<p>
-			<strong th:text="${param.num}"></strong>님의 정보가 수정되었습니다.
-			<a th:href="@{/member/list}">확인</a>
-		</p>
-	</div>
+	
+	<!--/* 여기서 param은 edit 에서 model 에 담기 전의 request 영역에 담긴 정보를 빼내온다.
+		<script>
+			alert("[[${param.name}]] 님의 정보를 수정했습니다.");
+			location.href="[[@{/member/list}]]";
+		</script>
+	*/-->
+	
+	<script th:inline="javascript">
+		alert(/*[[${dto.name} + ' 님의 정보를 수정했습니다.']]*/);
+		location.href=/*[[@{/member/list}]]*/"";
+	</script>
 </body>
 </html>
