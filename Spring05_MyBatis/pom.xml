@@ -30,12 +30,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		<!--
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		-->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -75,7 +75,8 @@
 		</dependency>
 		
 				<!-- spring boot 3.0 이상에서 jsp 페이지 사용과 taglib 를 사용하기 위해 -->
-		<dependency>
+		<!-- 
+			<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 			<scope>provided</scope>
@@ -92,7 +93,9 @@
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
-		</dependency>
+		</dependency>	
+		-->
+		
 	</dependencies>
 
 	<build>
