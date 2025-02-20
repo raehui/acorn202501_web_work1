@@ -14,7 +14,7 @@
 	*/-->
 	
 	<script th:inline="javascript">
-		alert(/*[[${dto.name} + ' 님의 정보를 수정했습니다.']]*/);
+		alert(/*[[${param.name} + ' 님의 정보를 수정했습니다.']]*/);
 		location.href=/*[[@{/member/list}]]*/"";
 	</script>
 </body>

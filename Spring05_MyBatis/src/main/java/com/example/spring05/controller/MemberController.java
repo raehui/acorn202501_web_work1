@@ -21,6 +21,7 @@ public class MemberController {
 	 * MemberDto 객체에 담긴체로 참조값이 전달된다.
 	 * 요소의 이름과 MemberDto의 필드명이 동일해야 한다. - request 담을 수고가 없음
 	 */
+	
 	@GetMapping("/member/edit")
 	public String edit(int num,Model model) {
 		//GET 방식 파라미터로 전달되는 회원의 번호를 이용해서 회원 정보를 얻어온다.
@@ -33,7 +34,7 @@ public class MemberController {
 	@PostMapping("/member/update")
 	public String update(MemberDto dto) {
 		dao.update(dto);
-				
+		
 		return "member/update";
 	}
 	

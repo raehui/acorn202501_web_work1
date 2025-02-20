@@ -6,8 +6,8 @@ import com.example.spring05.dto.TodoDto;
 
 public interface TodoDao {
 	public List<TodoDto> getList();
-	public void insert(TodoDto dto);
-	public void delete(int id);
+	public int insert(TodoDto dto);
+	public int delete(int id);
 	public void update(TodoDto dto);
 	public TodoDto getData(int id);
 

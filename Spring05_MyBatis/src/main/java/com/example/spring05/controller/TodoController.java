@@ -35,7 +35,10 @@ public class TodoController {
 	
 	@GetMapping("/todo/insert")
 	public String insert(TodoDto dto) {		
-		dao.insert(dto);
+		int rowcount=dao.insert(dto);
+		if(rowcount ==0) {
+			throw new RuntimeException();
+		}
 		
 		return "todo/insert";
 	}
@@ -50,6 +53,7 @@ public class TodoController {
 	@PostMapping("/todo/update")
 	public String update(TodoDto dto) { //여기서 dto는 파라미터에 입력한 내용이 자동으로 담겨져 있음
 		dao.update(dto);
+		
 		
 		return "todo/update";
 	}

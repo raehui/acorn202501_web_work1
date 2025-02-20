@@ -38,6 +38,7 @@ public class MemberDaoImpl implements MemberDao {
 		 * 
 		 * 파라미터의 타입이 여러개면 dto 혹은 Map , 즉 여기서는 name, addr이 담겨있다.
 		 */
+		
 		session.insert("member.insert",dto);
 		
 	}

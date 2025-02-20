@@ -23,14 +23,15 @@ public class TodoDaoImpl implements TodoDao {
 	}
 
 	@Override
-	public void insert(TodoDto dto) {
-		session.insert("todo.insert",dto);
+	public int insert(TodoDto dto) {
+		
+		return session.insert("todo.insert",dto);
 	}
 
 	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		session.delete("todo.delete",id);
+	public int delete(int id) {
+		
+		return session.delete("todo.delete",id);
 		
 		
 	}
