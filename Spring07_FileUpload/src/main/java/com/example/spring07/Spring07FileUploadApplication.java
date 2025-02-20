@@ -5,8 +5,13 @@ import java.io.IOException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
-
+/*
+ * @PropertySource(value="커스텀 properties 파일의 위치 ")
+ * classpath: 는 resources 폴더를 가리킨다.
+ */
+@PropertySource(value="classpath:custom.properties")
 @SpringBootApplication
 public class Spring07FileUploadApplication {
 

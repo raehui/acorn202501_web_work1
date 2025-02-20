@@ -11,7 +11,7 @@
 <body>
 	<div class="container">
 		<h1>회원 목록 입니다.</h1>
-		<a th:href="${pageContext.request.contextPath}/member/new">회원추가</a>
+		<a href="${pageContext.request.contextPath}/member/new">회원추가</a>
 		<table class="table table-borderd">
 			<thead class="table-dark">
 				<tr>
