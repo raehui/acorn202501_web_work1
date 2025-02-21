@@ -51,6 +51,7 @@ public class UserController {
 	}
 	
 	//로그인 폼을 제출(post) 한 로그인 프로세즈 중에 forward 되는 경로이기 때문에 @PostMapping 임에 주의!
+	//로그인 폼을 처리를 하고 있는 중이기에 post맵핑으로 되어있어야 한다.
 	@PostMapping("/user/login-fail")
 	public String loginFail() {
 		//로그인 실패임을 알릴 페이지

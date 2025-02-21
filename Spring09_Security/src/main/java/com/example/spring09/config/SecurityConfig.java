@@ -18,7 +18,7 @@ public class SecurityConfig {
 	/*
 	 *  매개변수에 전달되는 HttpSecurity 객체를 이용해서 우리의 프로젝트 상황에 맞는 설정을 기반으로 
 	 *  만들어진 SecurityFilterChain 객체를 리턴해주어야 한다.
-	 *  또한 SecurityFilterChain 객체도 스프링이 관리하는 Bean 이 되어야 한다  
+	 *  또한 SecurityFilterChain 객체도 스프링이 관리하는 Bean 이 되어야 한다.  
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -31,6 +31,7 @@ public class SecurityConfig {
 				.requestMatchers(whiteList).permitAll()
 				.requestMatchers("/admin/**").hasRole("ADMIN")
 				.requestMatchers("/staff/**").hasAnyRole("ADMIN", "STAFF")
+				//그 이외의 나머지는 로그인을 해야 접속 가능
 				.anyRequest().authenticated()
 		)
 		.formLogin(config ->
@@ -40,10 +41,11 @@ public class SecurityConfig {
 				//로그인 처리를 할때 요청될 url 설정 ( spring security 가 login 처리를 대신 해준다)
 				.loginProcessingUrl("/user/login")
 				//로그인 처리를 대신 하려면 어떤 파라미터명으로 username 과 password 가 넘어오는지 알려주기 
+				//근디 Spring DB를 어떻게 자동으로 정보를 추출할까? Bean으로 만들어 놓았음 AuthenticationManager (밑으로 가보삼)
 				.usernameParameter("userName")
 				.passwordParameter("password")
 				.successHandler(new AuthSuccessHandler()) //로그인 성공 핸들러 등록
-				.failureForwardUrl("/user/login-fail")
+				.failureForwardUrl("/user/login-fail") //실패시 forward 이동을 하기에 주소창에 나오지 않음
 				.permitAll() //위에 명시한 모든 요청경로를 로그인 없이 요청할수 있도록 설정 
 		)
 		.logout(config ->
@@ -53,7 +55,7 @@ public class SecurityConfig {
 				.permitAll()
 		)
 		.exceptionHandling(config ->
-			//403 forbidden 인 경우 forward 이동 시킬 경로 설정 
+			//403 forbidden 인 경우 forward 이동 시킬 경로 설정 , forward 이동시 클라이언트이 주소창에 안보임
 			config.accessDeniedPage("/user/denied")
 		)
 		.sessionManagement(config -> 
@@ -61,7 +63,7 @@ public class SecurityConfig {
 				.maximumSessions(1) //최대 허용 세션 갯수
 				.expiredUrl("/user/expired") //허용 세션 갯수가 넘어서 로그인 해제된 경우 리다일렉트 이동시킬 경로
 		);
-		
+		//설정 정보를 가지고 있는 httpSecurity 객체의 build() 메소드를 호출해서 리턴되는 객체를 리턴해준다.
 		return httpSecurity.build();
 	}
 	
@@ -72,6 +74,9 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	//인증 메니저 객체를 bean 으로 만든다. (Spring Security 가 자동 로그인 처리할때도 사용되는 객체)
+	//여기서 UserDetailsService는 우리가 만들어 놓아서 처리 -> CustomUserDetailsService으로 가보삼
+	//우리가 만든 걸 기반으로 인증을 진행한다.
+	//여기서 입력한 비밀번호와 DB의 비밀번호를 일치하는지 검사를 내재적으로 진행함(코드는 명시적으로 작성되어있지 않음)
 	@Bean
 	AuthenticationManager authenticationManager(HttpSecurity http,
 			BCryptPasswordEncoder encoder, UserDetailsService service) throws Exception{

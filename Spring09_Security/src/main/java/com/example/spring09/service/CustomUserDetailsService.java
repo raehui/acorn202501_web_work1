@@ -19,8 +19,7 @@ import com.example.spring09.dto.UserDto;
  */
 @Service //bean 으로 만들기 위한 어노테이션
 public class CustomUserDetailsService implements UserDetailsService {
-	
-	
+		
 	
 	// username 을 전달하면 해당 user 의 자세한 정보를 리턴하는 메소드
 	@Override
@@ -58,6 +57,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		authList.add(new SimpleGrantedAuthority(dto.getRole()));
 		
 		//UserDetails 객체를 생성해서 
+		//DB에 저장된 암호화된 비밀번호, 암호화된 비밀번호임
 		UserDetails ud=new User(dto.getUserName(), dto.getPassword(), authList);
 		//리턴해준다.
 		return ud;
