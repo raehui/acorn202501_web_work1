@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 	@ExceptionHandler(DataAccessException.class)
 	public String handleDataAccessException(DataAccessException e,Model model) {
-		model.addAttribute("message","DB 접속이 잘못되었습니다.!");
+		model.addAttribute("message","DB 접속이 잘못되었습니다!");
 		return "error/data-access";
 	}
 	
 	@ExceptionHandler(RuntimeException.class)
 	public String handleRuntimeException(RuntimeException e,Model model) {
-		model.addAttribute("message","실행 중에 오류가 발생했습니다.");
+		model.addAttribute("message","실행 중에 오류가 발생했습니다!");
 		return "error/run";
 	}
 	
