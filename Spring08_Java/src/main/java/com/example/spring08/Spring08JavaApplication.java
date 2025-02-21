@@ -31,6 +31,9 @@ public class Spring08JavaApplication {
 		messenger.sendGreeting("안녕하세요!");
 		messenger.sendGreeting("안녕 마루야!");
 		
+		String result=messenger.getMessage();
+		System.out.println("result: "+result);
+		
 		util.writeLetter();
 		util.writeReport();
 		util.writeDiary();

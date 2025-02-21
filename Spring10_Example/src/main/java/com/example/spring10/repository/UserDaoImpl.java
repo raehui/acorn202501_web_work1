@@ -1,0 +1,56 @@
+package com.example.spring10.repository;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.example.spring10.dto.UserDto;
+
+import jakarta.websocket.Session;
+
+@Repository
+public class UserDaoImpl implements UserDao{
+	
+	@Autowired
+	public SqlSession session;
+
+	@Override
+	public UserDto getData(long num) {
+		/*
+		 * parameteType=long
+		 * resultType=UserDto
+		 */
+		
+		return session.selectOne("user.getByNum",num);
+	}
+
+	@Override
+	public UserDto getData(String userName) {
+		
+		return session.selectOne("user.getByUserName",userName);
+	}
+
+	@Override
+	public int insert(UserDto dto) {
+		
+		return session.insert("user.insert",dto);
+	}
+
+	@Override
+	public int updatePwd(UserDto dto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int update(UserDto dto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+	
+	
+	
+
+}
