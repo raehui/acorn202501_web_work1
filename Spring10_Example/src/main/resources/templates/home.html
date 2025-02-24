@@ -19,6 +19,10 @@
 				<a th:href="@{/user/signup-form}">회원가입</a>
 			</div>
 		<h1>인덱스 페이지 입니다.</h1>
+		
+		<ul>
+			<li><a th:href="@{/post/list}">글목록 보기</a></li>
+		</ul>
 		<h2>공지사항</h2>
 		<ul>
 			<li th:each="tmp:${noticeList}" th:text="${tmp}"></li>
