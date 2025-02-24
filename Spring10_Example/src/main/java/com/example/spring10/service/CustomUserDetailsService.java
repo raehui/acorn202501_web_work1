@@ -33,6 +33,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 		//지금은 sample 데이터를 만들어서 사용한다.
 		UserDto dto=dao.getData(username);
 		
+		//만일 존재하지 않는 사용자라면 
+		if(dto==null) {
+			throw new UsernameNotFoundException("존재 하지 않는 사용자 입니다.");
+		}
+		
 		//권한 목록을 List 에 담아서  (지금은 1개 이지만)
 		//STAFF도 다 같지 않아서 세부적인 내용을 담지만 지금은 하나만 함
 		//원래는 로그인하면 서버에서 정보를 뽑아와서 담는다.

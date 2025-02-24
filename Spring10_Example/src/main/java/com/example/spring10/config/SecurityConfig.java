@@ -22,8 +22,9 @@ public class SecurityConfig {
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+		//spring security 가 인증과정을 거치지 않은 요청 경로
 		String[] whiteList= {"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired",
-				"/user/signup-form","/user/signup","/user/checkid"};
+				"/user/signup-form","/user/signup","/user/checkid","/upload/**"};
 		
 		httpSecurity
 		.csrf(csrf->csrf.disable())
@@ -83,6 +84,7 @@ public class SecurityConfig {
 			BCryptPasswordEncoder encoder, UserDetailsService service) throws Exception{
 		//적절한 설정을한 인증 메니저 객체를 리턴해주면 bean 이 되어서 Spring Security 가 사용한다 
 		return http.getSharedObject(AuthenticationManagerBuilder.class)
+				//폼에 있는 내용을 입력하면 DB에서 해당 회원 정보를 얻어오기
 				.userDetailsService(service)
 				.passwordEncoder(encoder)
 				.and()

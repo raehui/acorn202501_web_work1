@@ -4,6 +4,20 @@
 	<sql id="columnName">
 		num,userName,password,email, profileImage,role,updatedAt,createdAt
 	</sql>
+	
+	<update id="update" parameterType="com.example.spring10.dto.UserDto">
+		UPDATE users
+		SET email=#{email}, updatedAt=SYSDATE 
+		 <if test="profileImage != null">, profileImage=#{profileImage}</if>
+		WHERE userName=#{userName}
+	</update>
+	
+	<update id="updatePassword" parameterType="com.example.spring10.dto.UserDto">
+	UPDATE users
+	SET password=#{newPassword}
+	WHERE userName=#{userName}
+	</update>
+	
 	<insert id="insert" parameterType="com.example.spring10.dto.UserDto">
 		INSERT INTO users
 		(num,userName,password,email)
@@ -21,5 +35,9 @@
 		FROM users
 		WHERE userName=#{userName}
 	</select>
+	
+	
+	
+	
 	
 </mapper>
