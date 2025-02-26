@@ -24,6 +24,7 @@
 					<td>[[${post.num}]]</td>
 					<td>[[${post.writer}]]</td>
 					<td>
+						<!--/*findQuery에 검색조건과 키워드를 담았다.*/-->
 						<a th:href="@{|view?num=${post.num}${dto.findQuery}|}">[[${post.title}]]</a>
 					</td>
 					<td>[[${post.viewCount}]]</td>

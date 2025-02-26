@@ -8,7 +8,9 @@ import com.example.spring10.dto.PostListDto;
 public interface PostService {
 	//1 페이지 , 찾을 내용 
 	public PostListDto getPosts(int pageNum, PostDto search);
-	public void createPost(PostDto dto);
+	public long createPost(PostDto dto);
+	public PostDto getDetail(PostDto dto);
+	
 	
 
 }

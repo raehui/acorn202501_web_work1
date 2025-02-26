@@ -44,4 +44,18 @@ public class PostDaoImpl implements PostDao {
 		return session.selectOne("post.getCount",dto);
 	}
 
+	@Override
+	public PostDto getDetail(PostDto dto) {
+		
+		
+		
+		return session.selectOne("post.getDetail",dto);
+	}
+
+	@Override
+	public int getSequence() {
+		// TODO Auto-generated method stub
+		return session.selectOne("post.getSequence");
+	}
+
 }

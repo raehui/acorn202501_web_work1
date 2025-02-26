@@ -3,6 +3,7 @@ package com.example.spring10.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.spring10.dto.PostDto;
@@ -72,13 +73,28 @@ public class PostServiceImpl implements PostService{
 				.keyword(search.getKeyword())
 				.build();
 		
-		return null;
+		return dto;
 	}
 
 	@Override
-	public void createPost(PostDto dto) {
-		// TODO Auto-generated method stub
+	public long createPost(PostDto dto) {
+		// 제목 내용 작성자 글번호 얻어와서 dto에 얻어오고
+		// 작성자
+		String writer=SecurityContextHolder.getContext().getAuthentication().getName();
+		dto.setWriter(writer);
+		//글번호
+		long num=postDao.getSequence();
+		dto.setNum(num);
+		// 그걸 DB에 저장하기
+		postDao.insert(dto);
+		return num;		
 		
+	}
+
+	@Override
+	public PostDto getDetail(PostDto dto) {
+		
+		return postDao.getDetail(dto);
 	}
 
 }

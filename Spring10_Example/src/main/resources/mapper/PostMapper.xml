@@ -21,6 +21,22 @@
 		</choose>
 	</sql>
 	
+	<select id="getSequence" resultType="long" parameterType="com.example.spring10.dto.PostDto">
+		SELECT posts_seq.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<select id="getDetail" parameterType="com.example.spring10.dto.PostDto" resultType="com.example.spring10.dto.PostDto">
+		SELECT *
+		FROM
+			(SELECT <include refid="column"/>, 
+				LAG(num, 1, 0) OVER (ORDER BY num DESC) AS prevNum,
+				LEAD(num, 1, 0) OVER (ORDER BY num DESC) AS nextNum
+			FROM posts
+			<include refid="search"/> ) result1
+		WHERE num=#{num}
+	</select>
+	
 	<select id="getCount" parameterType="com.example.spring10.dto.PostDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM),0)
 		FROM posts
