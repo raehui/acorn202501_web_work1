@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="file">
+	<sql id="column">
+		num, uploader, orgFileName, saveFileName, fileSize, uploadedAt
+	</sql>
+	
+	<sql id="search">
+		<choose>
+			<when test="condition == 'uploder'">
+				WHERE uploader LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'orgFileName'">
+				WHERE orgFileName LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'title_content'">
+				WHERE orgFileName LIKE '%' || #{keyword} || '%' OR content LIKE '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</sql>	
+	
+	<select id="getList" parameterType="fileDto" resultType="fileDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT <include refid="column"/>
+				FROM  files
+				<include refid="search"/>
+				ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}		
+	</select>
+	
+	<select id="getCount" parameterType="fileDto" resultType="int">
+	 	SELECT NVL(MAX(ROWNUM), 0)
+		FROM files
+		<include refid="search"/>
+	</select>	
+
+	<insert id="insert" parameterType="fileDto">
+		INSERT INTO files
+		(<include refid="column"/>)
+		VALUES(#{num}, #{uploader}, #{orgFileName},#{saveFileName}, #{fileSize}, SYSDATE)
+	</insert>
+	
+	<select id="getSequence" resultType="long">
+		SELECT files_seq.NEXTVAL
+		FROM DUAL
+	</select>
+</mapper>
