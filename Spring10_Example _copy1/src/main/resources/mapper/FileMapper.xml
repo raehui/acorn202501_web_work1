@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="file">
 	<sql id="column">
-		num, uploader, orgFileName, saveFileName, fileSize, uploadedAt
+		num, uploader, title ,orgFileName, saveFileName, fileSize, uploadedAt
 	</sql>
 	
 	<sql id="search">
@@ -18,6 +18,12 @@
 			</when>
 		</choose>
 	</sql>	
+	
+	<select id="getList" resultType="fileDto">
+	SELECT <include refid="column"/>
+	FROM files
+	ORDER BY num DESC
+	</select>
 	
 	<select id="getList" parameterType="fileDto" resultType="fileDto">
 		SELECT *

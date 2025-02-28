@@ -13,28 +13,23 @@ public class FileDaoImpl implements FileDao {
 	
 	@Autowired SqlSession session;
 	
-	@Override
-	public List<FileDto> getList(FileDto dto) {
-		
-		return session.selectList("file.getList", dto);
-	}
-
+	
 	@Override
 	public int insert(FileDto dto) {
-		
+		// 파일의 번호는 files_seq라는 이름의 시퀀스로 넣기
 		return session.insert("file.insert", dto);
 	}
 
 	@Override
 	public int delete(long num) {
-		// TODO Auto-generated method stub
-		return 0;
+		// 번호를 이용해서 title 만 수정하도록 한다.
+		return session.delete("file.delete",num);
 	}
 
 	@Override
 	public int update(FileDto dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		// 번호를 이용해서 title 만 수정하도록 한다.
+		return session.update("file.update", dto);
 	}
 
 	@Override
@@ -47,6 +42,12 @@ public class FileDaoImpl implements FileDao {
 	public int getCount(FileDto dto) {
 		
 		return session.selectOne("file.getCount",dto);
+	}
+
+	@Override
+	public List<FileDto> getList() {
+		// 번호에 대해서 내림차순 정렬된 파일 목록
+		return session.selectList("file.getList");
 	}
 
 }

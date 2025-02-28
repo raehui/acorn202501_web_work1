@@ -7,7 +7,8 @@ import com.example.spring10.dto.PostDto;
 
 public interface FileDao {
 	//리스트 얻어오기, 추가, 삭제, 수정
-	public List<FileDto> getList(FileDto dto);
+	public List<FileDto> getList();
+	
 	public int insert(FileDto dto);
 	public int delete(long num);
 	public int update(FileDto dto);
