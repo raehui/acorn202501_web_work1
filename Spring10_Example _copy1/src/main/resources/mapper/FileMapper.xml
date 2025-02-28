@@ -18,6 +18,9 @@
 			</when>
 		</choose>
 	</sql>	
+	<select id="getData" parameterType="long">
+	</select>
+	
 	
 	<select id="getList" resultType="fileDto">
 	SELECT <include refid="column"/>

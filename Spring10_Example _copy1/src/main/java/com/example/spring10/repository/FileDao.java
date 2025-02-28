@@ -16,5 +16,6 @@ public interface FileDao {
 	public long getSequence();
 	//전체 파일의 갯수 얻어오기
 	public int getCount(FileDto dto);
+	public FileDto getData(long num);
 
 }

@@ -16,16 +16,18 @@
 	 			<tr>
 	 				<th>번호</th>
 	 				<th>작성자</th>
-	 				<th>파일이름</th>
-	 				<th>파일사이즈</th>
+	 				<th>제목</th>
+	 				<th>파일</th>
+	 				<th>크기</th>
 	 				<th>업로드 날짜</th>
 	 				<th>다운로드</th>
 	 			</tr>
 	 		</thead>
 	 		<tbody>
-	 			<tr th:each="file : ${dto.list}" >
+	 			<tr th:each="file : ${list}" >
 	 				<td>[[${file.num}]]</td>
 	 				<td>[[${file.uploader}]]</td>
+	 				<td th:text="${file.title}"></td>
 	 				<td>
 	 				<a th:href="@{|view?num=${file.num}${dto.findQuery}|}">[[${file.orgFileName}]]</a>
 	 				</td>

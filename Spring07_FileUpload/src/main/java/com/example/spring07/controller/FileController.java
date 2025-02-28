@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.security.Provider.Service;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.spring07.dto.FileDto;
 
@@ -29,6 +32,7 @@ public class FileController {
 	
 	@Value("${file.location}")
 	private String fileLocation;
+	
 	
 	/*
 	 * ResponseEntity<InputStreamResource> 는 파일을 다운로드 할때 사용하는 리턴 type 이다.
@@ -90,6 +94,10 @@ public class FileController {
 	 * MultipartFile은 파일을 처리하는 객체
 	 * 
 	 */
+	
+	
+	
+	
 	@PostMapping("/file/upload")
 	public String upload(String title, MultipartFile myFile, Model model) {		
 		//만일 파일이 업로드 되지 않았다면

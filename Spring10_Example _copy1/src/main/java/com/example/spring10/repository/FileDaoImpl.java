@@ -50,4 +50,10 @@ public class FileDaoImpl implements FileDao {
 		return session.selectList("file.getList");
 	}
 
+	@Override
+	public FileDto getData(long num) {
+		// TODO Auto-generated method stub
+		return session.selectOne("file.getData",num);
+	}
+
 }

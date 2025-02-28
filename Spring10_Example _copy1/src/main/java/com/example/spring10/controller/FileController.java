@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.security.Provider.Service;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,13 +77,24 @@ public class FileController {
 		}
 	}
 	
+	/*
+	 * @GetMapping("/file/list") public String list(@RequestParam(defaultValue =
+	 * "1") int pageNum,FileDto search ,Model model) {
+	 * 
+	 * FileListDto dto=service.getFiles(pageNum, search); model.addAttribute("dto",
+	 * dto); System.out.println(dto); return "file/list"; }
+	 */
+	
 	@GetMapping("/file/list")
 	public String list(@RequestParam(defaultValue = "1") int pageNum,FileDto search ,Model model) {
-		FileListDto dto=service.getFiles(pageNum, search);
-		model.addAttribute("dto", dto);		
-		System.out.println(dto);
+		
+		List<FileDto> list=service.getFiles();
+		model.addAttribute("list", list);		
+		
 		return "file/list";
 	}
+	
+	
 	
 	@PostMapping("/file/upload")
 	public String upload(FileDto dto, Model model, RedirectAttributes ra ) {
