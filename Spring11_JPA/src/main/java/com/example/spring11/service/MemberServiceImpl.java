@@ -2,6 +2,7 @@ package com.example.spring11.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,15 @@ public class MemberServiceImpl implements MemberService {
 		// dto를 Entity 로 변경해서 저장한다.
 		repo.save(Member.toEntity(dto));
 		
+	}
+
+	@Override
+	public MemberDto getByNum(Integer num) {
+		Member member=repo.getById(num);
+		
+		// 내가 아이디로 가져온 entity를 dto에 담아야 함.
+		MemberDto dto= MemberDto.toDto(member);
+		return dto;
 	}
 
 }

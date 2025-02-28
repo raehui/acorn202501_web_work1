@@ -16,6 +16,14 @@ public class MemberController {
 	
 	@Autowired private MemberService service;
 	
+	@GetMapping("/member/edit")
+	public String edit(Integer num,Model model) {
+		//해당 번호 맞는 이름 , 주소 데이터를 불러와야 함
+		MemberDto dto=service.getByNum(num);
+		model.addAttribute("dto",dto);
+		return "member/edit";
+	}
+	
 	@PostMapping("/member/save")
 	public String save(MemberDto dto) {
 		service.saveMember(dto);
@@ -33,6 +41,7 @@ public class MemberController {
 		
 		List<MemberDto> list = service.getAll();
 		model.addAttribute("list",list);
+		
 		
 		return "member/list";
 	}

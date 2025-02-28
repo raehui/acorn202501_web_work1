@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/member/new.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>회원 수정 폼</h1>
+		<form th:action="@{/member/update}" method="post">
+			<div>
+				<label for="name">이름</label>
+				<input type="text" id="name" name="name" th:value="${dto.name}" />
+			</div>
+			<div>
+				<label for="addr">주소</label>
+				<input type="text" id="addr" name="addr" th:value="${dto.addr}" />
+			</div>
+			
+		</form>
+	</div>
+</body>
+</html>
