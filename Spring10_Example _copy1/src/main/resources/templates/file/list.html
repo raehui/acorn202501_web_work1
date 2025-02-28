@@ -2,71 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>/file/list</title>
+<title>/file/list.html</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
 </head>
 <body>
-	 <div class="container">
-	 	<!--/* 새로운 글을 작성했으면 saveMessage 가 존재한다.*/-->
-		<p class="alert alert-success" th:if="${saveMessage != null}">[[${saveMessage}]]</p>
-	 	<a th:href="@{/file/new}">파일 업로드</a>
-	 	<h1>자료실 목록 입니다</h1>
-	 	<table class="table table-striped">
-	 		<thead class="table-dark">
-	 			<tr>
-	 				<th>번호</th>
-	 				<th>작성자</th>
-	 				<th>제목</th>
-	 				<th>파일</th>
-	 				<th>크기</th>
-	 				<th>업로드 날짜</th>
-	 				<th>다운로드</th>
-	 			</tr>
-	 		</thead>
-	 		<tbody>
-	 			<tr th:each="file : ${list}" >
-	 				<td>[[${file.num}]]</td>
-	 				<td>[[${file.uploader}]]</td>
-	 				<td th:text="${file.title}"></td>
-	 				<td>
-	 				<a th:href="@{|view?num=${file.num}${dto.findQuery}|}">[[${file.orgFileName}]]</a>
-	 				</td>
-	 				<td>[[${file.fileSize}]]</td>
-	 				<td>[[${file.uploadedAt}]]</td>
-	 				<td><a th:href="@{/file/download(saveFileName=${file.saveFileName},fileSize=${file.fileSize}, orgFileName=${file.orgFileName})}">다운로드</a></td>
-	 			</tr>
-	 		</tbody>
-	 	</table>
-	 	<nav>
-            <ul class="pagination" th:if="${dto.totalPageCount ne 0}">
-                <li th:if="${dto.startPageNum ne 1}" class="page-item">
-                    <a class="page-link" th:href="@{|/file/list?pageNum=${dto.startPageNum - 1}${dto.findQuery}|}">Prev</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(dto.startPageNum, dto.endPageNum)}" class="page-item" th:classappend="${i} == ${dto.pageNum} ? 'active'">
-                    <a class="page-link" th:href="@{|/file/list?pageNum=${i}${dto.findQuery}|}">[[${i}]]</a>
-                </li>
-                <li th:if="${dto.endPageNum lt dto.totalPageCount}" class="page-item">
-                    <a class="page-link" th:href="@{|/file/list?pageNum=${dto.endPageNum + 1}${dto.findQuery}|}">Next</a>
-                </li>
-            </ul>
-        </nav>
-	 	
-	 	<!-- 검색 폼 -->
-        <form th:action="@{/file/list}" method="get">
-			<label for="condition">검색조건</label>
-			<select name="condition" id="condition">
-				<option value="title_content" th:selected="${dto.condition eq 'title_content'}">제목 + 내용</option>
-				<option value="title" th:selected="${dto.condition eq 'title'}">제목</option>
-				<option value="writer" th:selected="${dto.condition eq 'writer'}">작성자</option>
-			</select>	
-			<input type="text" name="keyword" placeholder="검색어..." th:value="${dto.keyword}"/>
-			<button class="btn btn-primary btn-sm" type="submit">검색</button>
-			<a th:href="@{/file/list}" class="btn btn-success btn-sm">새로고침</a>
-		</form>
-		
-		<p th:if="${not #strings.isEmpty(dto.keyword)}">
-			<strong th:text="${dto.totalRow}"></strong> 개의 글이 검색 되었습니다
-		</p>
-	 </div>
+	<div class="container">
+		<p class="alert alert-success" th:if="${msg != null}">[[${msg}]]</p>
+		<a th:href="@{/file/new}">업로드 하러가기</a>
+		<h1>자료실 목록</h1>
+		<table class="table table-bordered">
+			<thead class="table-dark">
+				<tr>
+					<th>번호</th>
+					<th>업로더</th>
+					<th>제목</th>
+					<th>파일</th>
+					<th>크기</th>
+					<th>업로드 날짜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="tmp : ${list}">
+					<td th:text="${tmp.num}"></td>
+					<td th:text="${tmp.uploader}"></td>
+					<td th:text="${tmp.title}"></td>
+					<td><a th:href="@{/file/download(num=${tmp.num})}">[[${tmp.orgFileName}]]</a></td>
+					<td th:text="${tmp.fileSize}"></td>
+					<td th:text="${tmp.uploadedAt}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
+
+
+
+
