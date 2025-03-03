@@ -8,5 +8,7 @@ public interface MemberService {
 	public List<MemberDto> getAll();
 	public void saveMember(MemberDto dto);
 	public MemberDto getByNum(Integer num);
+	public void update(MemberDto dto);
+	public void delete(Integer num);
 	
 }

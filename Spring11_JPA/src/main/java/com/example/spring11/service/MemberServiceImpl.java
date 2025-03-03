@@ -55,4 +55,23 @@ public class MemberServiceImpl implements MemberService {
 		return dto;
 	}
 
+	@Override
+	public void update(MemberDto dto) {
+		// 기존의 값 가져오기
+		Member member=repo.getById(dto.getNum());
+		// 수정한 dto를 기존의 entity로 변경
+		member.setName(dto.getName());
+		member.setAddr(dto.getAddr());
+		System.out.println(dto);
+		// DB에 저장하기
+		repo.save(member);
+		
+	}
+
+	@Override
+	public void delete(Integer num) {
+		repo.deleteById(num);
+		
+	}
+
 }

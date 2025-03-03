@@ -7,6 +7,12 @@
 <body>
 	<div class="container">
 		<a th:href="@{/member/new}">회원추가</a>
+		<!-- 회원 추가시 -->
+		<p class="alert alert-success" th:if="${saveMessage != null}">[[${saveMessage}]]</p>
+		
+		<!-- 회원 수정시 -->
+		<p class="alert alert-success" th:if="${updateMessage != null}">[[${updateMessage}]]</p>
+		
 		<h1>회원 목록 입니다.</h1>
 		<table>
 			<thead>
@@ -15,6 +21,7 @@
 					<th>이름</th>
 					<th>주소</th>
 					<th>수정</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -23,6 +30,7 @@
 					<td>[[${tmp.name}]]</td>
 					<td>[[${tmp.addr}]]</td>
 					<td><a th:href="@{|/member/edit?num=${tmp.num}|}">수정하기</a></td>
+					<td><a th:href="@{|/member/delete?num=${tmp.num}|}">삭제하기</a></td>
 				</tr>
 			</tbody>
 		</table>

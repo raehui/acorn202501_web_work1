@@ -9,6 +9,9 @@
 		<h1>회원 수정 폼</h1>
 		<form th:action="@{/member/update}" method="post">
 			<div>
+				<input type="hidden" id="num" name="num" th:value="${dto.num}">
+			</div>
+			<div>
 				<label for="name">이름</label>
 				<input type="text" id="name" name="name" th:value="${dto.name}" />
 			</div>
@@ -16,7 +19,8 @@
 				<label for="addr">주소</label>
 				<input type="text" id="addr" name="addr" th:value="${dto.addr}" />
 			</div>
-			
+			<button type="submit">수정하기</button>
+			<button type="reset">리셋</button>
 		</form>
 	</div>
 </body>

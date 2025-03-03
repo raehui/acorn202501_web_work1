@@ -1,5 +1,6 @@
 package com.example.spring11.controller;
 
+import java.nio.file.spi.FileSystemProvider;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.spring11.dto.MemberDto;
 import com.example.spring11.service.MemberService;
@@ -15,6 +17,23 @@ import com.example.spring11.service.MemberService;
 public class MemberController {
 	
 	@Autowired private MemberService service;
+	
+	@GetMapping("/member/delete")
+	public String delete(MemberDto dto) {
+		service.delete(dto.getNum());
+		return "redirect:/member/list";
+	}
+	
+	@PostMapping("/member/update")
+	public String update(RedirectAttributes ra,MemberDto dto) {
+		
+		service.update(dto);
+		System.out.println(dto.getNum());
+		ra.addFlashAttribute("updateMessage", dto.getNum()+" 번 회원을 수정했습니다.");
+		
+		return "redirect:/member/list";
+	}
+	
 	
 	@GetMapping("/member/edit")
 	public String edit(Integer num,Model model) {
@@ -25,8 +44,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member/save")
-	public String save(MemberDto dto) {
+	public String save(MemberDto dto,RedirectAttributes ra) {
 		service.saveMember(dto);
+		ra.addFlashAttribute("saveMessage", "회원을 성공적으로 저장했습니다.");
 		return "redirect:/member/list";
 	}
 	
