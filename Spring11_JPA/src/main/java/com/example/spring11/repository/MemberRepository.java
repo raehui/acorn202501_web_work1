@@ -43,4 +43,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer>{
 	@Query(value = "SELECT m FROM MEMBER_INFO m ORDER BY m.num DESC")
 	public List<Member> getList(); // 메소드명은 마음대로 규칙없이
 
+	
+	
+
 }

@@ -22,7 +22,9 @@ public class MemberServiceImpl implements MemberService {
 		// List<Member> entityList = repo.findAll();
 		
 		//추가한 메소드를 이용해서 num에 대해서 내림차순 정렬된 목록을 얻어낼 수 있음
-		List<Member> entityList = repo.findAllByOrderByNumDesc();
+//		List<Member> entityList = repo.findAllByOrderByNumDesc();
+		List<Member> entityList = repo.getList();
+		
 		
 		/*
 		 * //MemberDto의 목록으로 만들어서 리턴해야 한다. 
