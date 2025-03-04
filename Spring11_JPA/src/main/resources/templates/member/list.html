@@ -29,8 +29,12 @@
 					<td>[[${tmp.num}]]</td>
 					<td>[[${tmp.name}]]</td>
 					<td>[[${tmp.addr}]]</td>
-					<td><a th:href="@{|/member/edit?num=${tmp.num}|}">수정하기</a></td>
-					<td><a th:href="@{|/member/delete?num=${tmp.num}|}">삭제하기</a></td>
+					<td>
+						<a th:href="@{|/member/edit?num=${tmp.num}|}">수정하기</a>
+					</td>
+					<td>
+						<a th:href="@{|/member/delete?num=${tmp.num}|}">삭제하기</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

@@ -7,8 +7,9 @@ import com.example.spring11.dto.MemberDto;
 public interface MemberService {
 	public List<MemberDto> getAll();
 	public void saveMember(MemberDto dto);
-	public MemberDto getByNum(Integer num);
-	public void update(MemberDto dto);
-	public void delete(Integer num);
+	public MemberDto getMember(Integer num);
+	public void updateMember(MemberDto dto);
+	public void deleteMember(Integer num);
+	
 	
 }
