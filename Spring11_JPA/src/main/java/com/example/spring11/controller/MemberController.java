@@ -44,8 +44,8 @@ public class MemberController {
 //	}
 	
 	@PostMapping("/member/update")
-	public String update(MemberDto dto) {
-		
+	public String update(MemberDto dto, RedirectAttributes ra) {
+		ra.addFlashAttribute("updateMessage", dto.getNum()+" 번 회원을 수정했습니다.");
 		service.updateMember(dto);
 		return "redirect:/member/list";
 	}
