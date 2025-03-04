@@ -110,6 +110,7 @@ public class Spring11JpaApplication {
 		galleryRepo.save(g3);
 		
 		// dto의 리스트가 만들어짐
+		// Repo로 entity 가 담긴 list를 가져와서, 새로운 배열 만들고, 안의 요소를 dto로 변경하고, list로 만들기
 		List<GalleryDto> list = galleryRepo.findAll().stream().map(GalleryDto::toDto).toList();
 		// stream() 을 이용해서 반복수행
 		list.stream().forEach(item->{
