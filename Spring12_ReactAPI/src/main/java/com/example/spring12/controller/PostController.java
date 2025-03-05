@@ -19,7 +19,7 @@ import com.example.spring12.dto.PostDto;
 import com.example.spring12.entity.Post;
 import com.example.spring12.repository.PostRepository;
 
-@RequestMapping("/v1") // 모든 요청에 대해서 
+@RequestMapping("/v1") // 모든 요청의 앞에 /v1을 붙인다.
 @RestController // dto의 응답을 json 으로 응답한다.
 public class PostController {
 	
