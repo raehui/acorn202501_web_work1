@@ -35,12 +35,11 @@ public class PostController3 {
 	}
 	
 	// 글 목록 요청 처리
-	// 방식으로 구분해서 list를 가져온다.(이게 특이한 듯...)
 	// 1페이지에 맞는 목록이 나와야 한다.
 	@GetMapping("/posts")
 	public PostPageResponse list(@RequestParam(defaultValue = "1") int pageNum){
 
-		return service.findPage(pageNum);
+		return service.findPage(pageNum); // 해당 row 가 담긴 list + 페이징 처리 번호
 	}
 	
 	@DeleteMapping("/posts/{id}")

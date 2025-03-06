@@ -21,7 +21,7 @@ public class Spring12ReactApiApplication {
 	@PostConstruct 
 	public void initPost() {
 		//반복문 돌면서 sample post 를 여러개 저장한다.
-		for(int i=0;i<100;i++) {
+		for(int i=0;i<110;i++) {
 			Post p = Post.builder().title("제목"+i).author("작성자"+i).build();
 			repo.save(p);
 		}
