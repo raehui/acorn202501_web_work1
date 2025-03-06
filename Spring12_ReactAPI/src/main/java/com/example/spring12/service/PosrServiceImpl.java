@@ -4,10 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.spring12.dto.PostDto;
+import com.example.spring12.dto.PostPageResponse;
 import com.example.spring12.entity.Post;
 import com.example.spring12.repository.PostRepository;
 
@@ -17,6 +22,11 @@ import com.example.spring12.repository.PostRepository;
 public class PosrServiceImpl implements PostService{
 	// JpaRepository 객체를 주입 받는다.
 	@Autowired PostRepository repo;
+	
+	//한페이지에 몇개의 row 를 출력할 것 인지에 대한 값
+	final int PAGE_ROW_COUNT=10;
+	//페이징 처리 UI에 페이지번호를 몇개씩 출력할지에 대한 값
+	final int PAGE_DISPLAY_COUNT=5;
 	
 	@Override
 	public PostDto save(PostDto dto) {
@@ -99,6 +109,41 @@ public class PosrServiceImpl implements PostService{
 		Post post=repo.findById(id).orElseThrow();
 		// 찾은 Entity 를 dto 로 변경해서 리턴하기
 		return PostDto.toDto(post);
+	}
+
+	@Override
+	public PostPageResponse findPage(int pageNum) {
+		// 한 페이지에 몇개씩 표시할 것인지
+		// id 컬럼에 대하여 내림차순 정렬하라는 정보를 가지고 있는 Sort 객체 만들기
+		Sort sort = Sort.by(Sort.Direction.DESC,"id");
+		// JPA 는 페이징에 관한 메서드가 내장...그러면 pageable 을 구하기
+		//pageNum 과 PAGE_ROW_COUNT 와 Sort 객체를 전달해서 Pageable 객체를 얻어낸다.
+		Pageable pageable = PageRequest.of(pageNum-1,PAGE_ROW_COUNT,sort); 
+		// 해당 페이지 정보를 얻어와서 
+		//Pageable 객체를 전달해서 해당 페이지 정보(row)를 얻어온 다음
+		Page<Post> page=repo.findAll(pageable);
+		List<PostDto> list =page.stream().map(PostDto::toDto).toList();
+		//새로운 dto 나 map 을 만들어서 담아서 React 에 전달
+		//하단 시작 페이지 번호 
+		int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
+		//하단 끝 페이지 번호
+		int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
+		//전체 페이지의 갯수 구하기(Page 객체에 이미 계산되어서 들어 있다.)
+		int totalPageCount=page.getTotalPages();
+		//끝 페이지 번호가 이미 전체 페이지 갯수보다 크게 계산되었다면 잘못된 값이다.
+		if(endPageNum > totalPageCount){
+			endPageNum=totalPageCount; //보정해 준다. 
+		}
+		
+		//위의 정보를 이용해서 PostPageResponse 객체에 담아서 리턴한다.
+		return PostPageResponse.builder()
+				.list(list)
+				.startPageNum(startPageNum)
+				.endPageNum(endPageNum)
+				.totalPageCount(totalPageCount)
+				.pageNum(pageNum)
+				.build()
+				;
 	}
 
 }
