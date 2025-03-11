@@ -39,7 +39,7 @@ public class SecurityConfig {
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, 
 			AuthSuccessHandler successHandler) throws Exception{
-		String[] whiteList= {"/api/auth", "/", "/play", "/user/loginform", "/user/login-fail", "/user/expired"};
+		String[] whiteList= {"/error","/favicon.ico","/api/auth", "/", "/play", "/user/loginform", "/user/login-fail", "/user/expired"};
 		 
 		httpSecurity
 		.csrf(csrf->csrf.disable())
@@ -85,6 +85,11 @@ public class SecurityConfig {
 			//세션을 사용하지 않도록 설정한다.
 			config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		)
+		// 자동으로 쿠기가 만들어짐
+		// 원래 가려던 목적지 정보를 쿠키에 자동으로 저장해주는 기능
+		.requestCache(config -> config.requestCache(new CookieRequestCache()))
+		// Jwtfilter 를 Spring Security 필터보다 미리 수행되게 하기
+		
 		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		

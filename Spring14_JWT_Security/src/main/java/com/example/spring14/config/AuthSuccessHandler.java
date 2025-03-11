@@ -43,6 +43,8 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
 	@Value("${jwt.cookie.expiration}")
 	private int cookieExpiration;
 	
+	//쿠기에 저장된 요청경로를 자동으로 읽어오는 객체를 생성해서 필드에 담아둔다.
+	private CookieRequestCache requestCache = new CookieRequestCache();
 	
 	//입력한 username 과 password 가 일치해서 로그인이 성공하면 이 메소드가 호출된다 
 	@Override
@@ -61,11 +63,21 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
         cookie.setHttpOnly(true); //웹브라우저에서 JavaScript에서 접근 불가 하도록 설정 
         cookie.setPath("/"); // 모든 경로에서 쿠키를 사용할수 있도록 설정 
         response.addCookie(cookie);
-     
-    	//로그인 환영 페이지로 foward 이동 (POST 방식 요청임에 주의!!!)
-    	RequestDispatcher rd=request.getRequestDispatcher("/user/login-success");
-    	rd.forward(request, response);
-      
+        
+        //저장된 요청을 얻어와 본다.
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        
+        if(savedRequest == null) {
+        	//저장된 요청이 없으면 로그인 성공 페이지로 로드
+        	RequestDispatcher rd = request.getRequestDispatcher("/user/login-success");
+        	rd.forward(request, response);
+        }else {
+        	// 저장된 요청이 있으면 원래 가려던 URL 로 리다일렉트
+        	String targetUrl = savedRequest.getRedirectUrl();
+        	response.sendRedirect(targetUrl);
+        }
+        	
+    	
 	}
 }
 
