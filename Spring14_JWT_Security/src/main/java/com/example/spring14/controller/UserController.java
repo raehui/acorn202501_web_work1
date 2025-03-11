@@ -1,12 +1,57 @@
 package com.example.spring14.controller;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.spring14.dto.UserDto;
+import com.example.spring14.util.JwtUtil;
 
 @Controller
 public class UserController {
+	
+	@Autowired JwtUtil jwtutil;
+	@Autowired AuthenticationManager authManager;
+	
+	@GetMapping("/api/ping") //white list 에 등록 되지 않은 요청은 token 이 있어야 요청 가능하다
+	@ResponseBody 
+	public String ping() { //여기서는 파라미터에 달고 요청했었음
+		
+		return "pong";
+	}
+	
+	//인증 매니저 객체를 통해서 직접 로그인 작업
+	//토큰 응답 메서드
+	@PostMapping("/api/auth")
+	@ResponseBody
+	public String auth(@RequestBody UserDto dto) throws Exception{
+		try {
+			UsernamePasswordAuthenticationToken authToken =
+					new UsernamePasswordAuthenticationToken(dto.getUserName(), dto.getPassword());
+			// 인증 매니저 객체를 이용해서 인증을 진행한다.
+			authManager.authenticate(authToken);
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			// 예외가 발생하면 인증실패(아이디 비번 틀림 등등)
+			e.printStackTrace();
+			throw new RuntimeException("아이디 혹은 비밀번호가 틀려요");
+		}
+		//sample claims
+		Map<String, Object> claims=Map.of("role","USER", "email","aaa@naver.com");
+		//예외가 발생하지 않고 여기까지 실행된다면 인증을 통과한 것이다. 토큰을 발급해서 응답한다.
+		String token = jwtutil.generateToken(dto.getUserName(), claims);
+		return "Bearer "+token; 
+	}
+	
 	//세션 허용갯수 초과시 
 	@GetMapping("/user/expired")
 	public String userExpired() {
