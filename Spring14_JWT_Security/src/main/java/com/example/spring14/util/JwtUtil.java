@@ -41,9 +41,9 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(getSigningKey()) //token 발급시 서명했던 키값도 일치하는지 확인도 된다.
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -70,14 +70,14 @@ public class JwtUtil {
     }
     // token 검증하는 메소드
     // 긴 토큰을 검증하는 방법
-    public Boolean validateToken(String token) {
-    	//token 으로 부토 userName 을 얻어낼 수 있다.
-        final String username = extractUsername(token);
-        //token 에 담긴 추가 정보를 얻어낼 수 있다. (role, issuer, email 등등)
-        final Claims claims = extractAllClaims(token);
-        // 웹서비스에서 발급받은 토큰을 앱에서 발급하지 못하게
-        // 즉 교차검증
-        return ( !isTokenExpired(token) &&
-                "your-issuer".equals(claims.getIssuer())); // 추가 검증
+    // 토큰의 키값, issuer, role 검증
+    public boolean validateToken(String token) {
+    	//token 에 담긴 추가 정보를 얻어낼 수 잇다.(role, issuer 등등)
+    	Claims claims = extractAllClaims(token);
+    	//토큰 유효시간이 남아 잇는지와 issuer 정보도 일치하는지 확인해서
+    	
+    	boolean isValid = !isTokenExpired(token) && "your-issuer".equals(claims.getIssuer());
+    	//유효성 여부를 리턴한다.
+    	return isValid;
     }
 }

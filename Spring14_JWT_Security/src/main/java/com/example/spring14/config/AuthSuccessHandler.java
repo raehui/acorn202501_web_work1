@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.CookieRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -51,10 +52,20 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws ServletException, IOException {
 		
-		Map<String, Object> claims=Map.of("role","USER", "email","aaa@naver.com");
-	
+//		Map<String, Object> claims=Map.of("role","USER", "email","aaa@naver.com");
+		
+		//Authentication 객체에는 인증된 사용자 정보가 들어 잇다. userName, role 등등
+		//현재는 role 을 하나만 부여하기 때문에 0번방에 들었있는 데이터만 불러옴
+		GrantedAuthority authority=authentication.getAuthorities().stream().toList().get(0);
+		
+		//ROLE_XXX 형식
+		String role = authority.getAuthority();
+		// "role" 이라는 키값으로 Map 에 담기
+		Map<String, Object> claims = Map.of("role",role);
+		
     	//여기 까지 실행순서가 넘어오면 인증을 통과 했으므로 토큰을 발급해서 응답한다.
 		String jwtToken=jwtUtil.generateToken(authentication.getName(), claims);
+		//토큰에는 userName 과 ROLE 가 담겨있음
 		
 		//공백문자때문에 인코딩을 해서 저장해야 함
 		String encoded=URLEncoder.encode("Bearer "+jwtToken, StandardCharsets.UTF_8);

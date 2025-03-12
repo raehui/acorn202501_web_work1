@@ -89,7 +89,6 @@ public class SecurityConfig {
 		// 원래 가려던 목적지 정보를 쿠키에 자동으로 저장해주는 기능
 		.requestCache(config -> config.requestCache(new CookieRequestCache()))
 		// Jwtfilter 를 Spring Security 필터보다 미리 수행되게 하기
-		
 		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		
@@ -104,6 +103,7 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	//인증 메니저 객체를 bean 으로 만든다. (Spring Security 가 자동 로그인 처리할때도 사용되는 객체)
+	//서비스의 UserDetails(userName,password,authority) 와 비교해서 같으면 로그인 성공 후 AuthSuccessHandler 가동함
 	@Bean
 	AuthenticationManager authenticationManager(HttpSecurity http,
 			BCryptPasswordEncoder encoder, UserDetailsService service) throws Exception{
