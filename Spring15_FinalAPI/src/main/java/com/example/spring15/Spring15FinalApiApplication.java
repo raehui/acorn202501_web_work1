@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:custom.properties")
 @SpringBootApplication
 public class Spring15FinalApiApplication {
-
+	//git test
 	public static void main(String[] args) {
 		SpringApplication.run(Spring15FinalApiApplication.class, args);
 	}
