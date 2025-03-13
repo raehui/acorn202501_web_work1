@@ -43,7 +43,7 @@ public class JwtUtil {
 
     public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey()) //token 발급시 서명했던 키값도 일치하는지 확인도 된다.
+                .setSigningKey(getSigningKey()) //token 발급시 서명했던 키값(csutom.properties)도 일치하는지 확인도 된다. 서명했던 키값이 일치하지 않으면 token 생성 안됨
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

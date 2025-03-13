@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,7 +22,8 @@ import com.example.spring14.filter.JwtFilter;
 import jakarta.servlet.http.Cookie;
 
 @Configuration //설정 클래스라고 알려준다
-@EnableWebSecurity //Security 를 설정하기 위한 어노테이션
+@EnableWebSecurity // Security 를 설정하기 위한 어노테이션
+@EnableMethodSecurity(securedEnabled = true) // Controller 메소드에서 권한 체크 가능하도록
 public class SecurityConfig {
 	
 	//jwt 를 쿠키로 저장할때 쿠키의 이름
@@ -38,7 +40,7 @@ public class SecurityConfig {
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, 
-			AuthSuccessHandler successHandler) throws Exception{
+			AuthSuccessHandler successHandler, AuthFailHandler failHandler) throws Exception{
 		String[] whiteList= {"/error","/favicon.ico","/api/auth", "/", "/play", "/user/loginform", "/user/login-fail", "/user/expired"};
 		 
 		httpSecurity
@@ -60,7 +62,8 @@ public class SecurityConfig {
 				.usernameParameter("userName")
 				.passwordParameter("password")
 				.successHandler(successHandler) //로그인 성공 핸들러 등록
-				.failureForwardUrl("/user/login-fail")
+//				.failureForwardUrl("/user/login-fail")
+				.failureHandler(failHandler) //위에서 forward 되는것 대신에 Handler 등록하기
 				.permitAll() //위에 명시한 모든 요청경로를 로그인 없이 요청할수 있도록 설정 
 		)
 		.logout(config ->

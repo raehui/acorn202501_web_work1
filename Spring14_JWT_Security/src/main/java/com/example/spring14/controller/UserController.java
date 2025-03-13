@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,8 +26,16 @@ public class UserController {
 	
 	@Autowired JwtUtil jwtutil;
 	//SecurityConfig 클래스에서 Bean 이 된 AuthenticationManager 객체 주입받기
-	//
 	@Autowired AuthenticationManager authManager;
+	
+	@Secured("ROLE_ADMIN")
+	//@PreAuthorize("hasRole('ADMIN')") 
+	@GetMapping("/secured/ping")
+	@ResponseBody
+	public String securedPing() {
+		
+		return "pong! pong!";
+	}
 	
 	@GetMapping("/api/ping") //white list 에 등록 되지 않은 요청은 token 이 있어야 요청 가능하다
 	@ResponseBody 
@@ -43,7 +53,7 @@ public class UserController {
 		try {
 			UsernamePasswordAuthenticationToken authToken =
 					new UsernamePasswordAuthenticationToken(dto.getUserName(), dto.getPassword());
-			// 인증 매니저 객체를 이용해서 인증을 진행한다.
+			// userName, password 로 인증 매니저 객체를 이용해서 인증을 진행한다.
 			authentication=authManager.authenticate(authToken);
 			
 		}catch (Exception e) {
@@ -99,8 +109,8 @@ public class UserController {
 		return "user/manage";
 	}
 	
-	
-	@GetMapping("/user/loginform")
+	//GET 방식 + POST 방식 모두 가능함
+	@RequestMapping("/user/loginform")
 	public String loginform() {
 		// templates/user/loginform.html 페이지로 forward 이동해서 응답 
 		return "user/loginform";

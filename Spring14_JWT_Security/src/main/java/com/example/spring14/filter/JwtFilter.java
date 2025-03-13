@@ -85,13 +85,11 @@ public class JwtFilter extends OncePerRequestFilter{//OncePerRequestFilter 클�
 				
 				Claims claims = jwtUtil.extractAllClaims(jwtToken); // JWT에서 모든 정보 가져오기
 				String role = claims.get("role", String.class);
-				List<String> roles=List.of(role);
-				List<SimpleGrantedAuthority> authorities=roles.stream().map(SimpleGrantedAuthority::new).toList();
-				//토큰에 있는 정보를 이용해서 UserDetails 객체를 생성
-				//DB가 아닌 토큰에서 데이터를 가지고 옴
-				UserDetails ud=new User(userName, 
-						"", //비밀번호는 필요 없음 
-						authorities);
+				// userName 과 role 정보를 담은 UserDetails 객체를 만든다.
+				UserDetails ud = User.withUsername(userName)
+						.password("") // 비밀번호는 필요없지만 null 인 상태면 builder 에서 에러 발생
+						.authorities(role)
+						.build();				
 				//사용자가 제출한 사용자 이름과 비밀번호와 같은 인증 자격 증명을 저장
 				UsernamePasswordAuthenticationToken authToken=
 					new UsernamePasswordAuthenticationToken(ud, null, 
