@@ -109,7 +109,8 @@ public class UserController {
 		return "user/manage";
 	}
 	
-	//GET 방식 + POST 방식 모두 가능함
+	// GET 방식 + POST 방식 모두 가능함
+	//
 	@RequestMapping("/user/loginform")
 	public String loginform() {
 		// templates/user/loginform.html 페이지로 forward 이동해서 응답 
