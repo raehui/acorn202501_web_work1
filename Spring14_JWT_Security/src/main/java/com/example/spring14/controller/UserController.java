@@ -110,7 +110,7 @@ public class UserController {
 	}
 	
 	// GET 방식 + POST 방식 모두 가능함
-	//
+	// 일반 로그인 요청은 get 요청 , 실패 시 리다일렉트는 post 요청이르모 2개를 모두 처리하기 위해서
 	@RequestMapping("/user/loginform")
 	public String loginform() {
 		// templates/user/loginform.html 페이지로 forward 이동해서 응답 
