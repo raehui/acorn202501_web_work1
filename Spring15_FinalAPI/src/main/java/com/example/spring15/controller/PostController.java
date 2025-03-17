@@ -1,4 +1,4 @@
-package com.example.spring10.controller;
+package com.example.spring15.controller;
 
 import java.util.Map;
 
@@ -6,20 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.spring10.dto.CommentDto;
-import com.example.spring10.dto.CommentListRequest;
-import com.example.spring10.dto.PostDto;
-import com.example.spring10.dto.PostListDto;
-import com.example.spring10.service.PostService;
+import com.example.spring15.dto.CommentDto;
+import com.example.spring15.dto.CommentListRequest;
+import com.example.spring15.dto.PostDto;
+import com.example.spring15.dto.PostListDto;
+import com.example.spring15.service.PostService;
 
 import jakarta.servlet.http.HttpSession;
 
-@Controller
+@RestController
 public class PostController {
 	
 	@Autowired private PostService service;
@@ -95,47 +98,44 @@ public class PostController {
 		return "post/new";
 	}
 	
-	@PostMapping("/post/save")
-	//알아서 객체를 넣어준다.
-	public String save(PostDto dto, RedirectAttributes ra){
+	@PostMapping("/posts")
+	//title content
+	public Map<String, Object> save(@RequestBody PostDto dto){
 		//새글을 저장하고 글번호를 리턴 받는다.
 		long num=service.createPost(dto);
-		ra.addFlashAttribute("saveMessage", "글을 성공적으로 저장했습니다.");
-		//글 자세히 보기로 리다일렉트 이동하라는 응답하기
-		return "redirect:/post/view?num="+num;
+		
+		return Map.of("num",num);
 	}
 	/*
 	 *  dto 에 글번호만 있는 경우도 있고 
 	 *  검색과 관련된 정보도 같이 있을수 있다. 
 	 */
-	@GetMapping("/post/view")
-	public String view(PostDto dto, Model model, HttpSession session) {
+	@GetMapping("/posts/{num}")
+	public PostDto view(@PathVariable(name = "num") long num, PostDto dto) {
+		//글번호는 경로 변수에, 검색키워드가 있다면 해당 정보는 PostDto 객체에 담겨 있다. 
+		//axios 에서 파라미터로 보낸 pageNum 은 num에 담기고 dto 랑 이름이 같은 condition, keyword 는 dto 에 자동으로 담김
 		
+		//글번호로 dto 에 담는다.
+		dto.setNum(num);
+		//글 자세한 정보를 얻어와서
 		PostDto resultDto=service.getDetail(dto);
-		model.addAttribute("postDto", resultDto);
+		//응답
 		
-		//새로 작성한 글이 아닌 경우에만 조회수 관련 처리를 한다. 
-		if(model.getAttribute("saveMessage") == null) {
-			//조회수 관련 처리를 한다.
-			String sessionId=session.getId();
-			service.manageViewCount(dto.getNum(), sessionId);
-		}
-		
-		return "post/view";
+		return resultDto;
 	}
 	
 	/*
 	 *  pageNum 이 파라미터로 넘어오지 않으면 pageNum 의 default 값은 1 로 설정 
 	 *  검색 키워드도 파라미터로 넘어오면 PostDto 의 condition 과 keyword 가 null 이 아니다 
-	 *  검색 키워드가 넘어오지않으면 PostDto 의 condition 과 keyword 는 null 이다
-	 *   
+	 *  검색 키워드가 넘어오지않으면 PostDto 의 condition 과 keyword 는 null 이다 
 	 */
-	@GetMapping("/post/list")
-	//컨디션, 키워드 파라미터가 PostDto 에 담겨셔 search 명으로 사용 가능
-	public String list(@RequestParam(defaultValue = "1") int pageNum, PostDto search, Model model) {
+	@GetMapping("/posts")
+	//search 는 어디서 날아오는가?
+	public PostListDto list(@RequestParam(defaultValue = "1") int pageNum, PostDto search) {
+		//글 목록과 검색 키워드 관련 정보가 들어 있는 PostListDto 
 		PostListDto dto=service.getPosts(pageNum, search);
-		model.addAttribute("dto", dto);
-		return "post/list";
+		//JSON 문자열이 응답 되도록 dto 를 리턴한다.
+		return dto;
 	}
 }
 

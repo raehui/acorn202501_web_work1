@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService{
 		//3. 입력한(암호화 되지 않은 구비밀번호) 와 일치하는지 비교 해서
 		// .checkpw( 암호화되지않은 비밀번호, 암호화된 비밀번호)
 		boolean isValid = BCrypt.checkpw(dto.getPassword(), encodedPwd);
-		//4. 만일 일치하지 않으면 Exception 을 발생 시킨다.
+		//4. 만일 DB와 일치하지 않으면 Exception 을 발생 시킨다.
 		if(!isValid) {
 			throw new PasswordException("기존 비밀번호가 일치하지 않습니다!");
 		}
