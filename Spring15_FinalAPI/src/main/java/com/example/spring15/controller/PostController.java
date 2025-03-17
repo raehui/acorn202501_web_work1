@@ -113,14 +113,15 @@ public class PostController {
 	@GetMapping("/posts/{num}")
 	public PostDto view(@PathVariable(name = "num") long num, PostDto dto) {
 		//글번호는 경로 변수에, 검색키워드가 있다면 해당 정보는 PostDto 객체에 담겨 있다. 
-		//axios 에서 파라미터로 보낸 pageNum 은 num에 담기고 dto 랑 이름이 같은 condition, keyword 는 dto 에 자동으로 담김
-		
+		/*
+		 * axios 에서 파라미터로 보낸 pageNum 은 num에 담기고 
+		 * dto 랑 이름이 같은 condition 과 keyword 는 dto 에 자동으로 담김
+		 */		
 		//글번호로 dto 에 담는다.
 		dto.setNum(num);
 		//글 자세한 정보를 얻어와서
 		PostDto resultDto=service.getDetail(dto);
-		//응답
-		
+		//응답		
 		return resultDto;
 	}
 	
