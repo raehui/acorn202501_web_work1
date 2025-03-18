@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ import jakarta.servlet.http.HttpSession;
 public class PostController {
 	
 	@Autowired private PostService service;
+	
 	
 	@PostMapping("/post/update-comment")
 	@ResponseBody //문자열은 그대로, map 혹은 dto는 json으로 변경해서 자동으로 응답한다. list 는 제너릭에 따라서 알아서 담아줌
@@ -65,10 +67,13 @@ public class PostController {
 	}
 	
 	//글 삭제 요청 처리
-	@GetMapping("/post/delete")
-	public String delete(long num) {
+	@DeleteMapping("/posts/{num}")
+	public PostDto delete(@PathVariable(value = "num") long num) {
+		PostDto dto = service.getByNum(num);
+		//서비스 객체를 이용해서 삭제하기
 		service.deletePost(num);
-		return "post/delete";
+		//삭제된 글 정보를 리턴하기
+		return dto;
 	}
 	
 	//글 수정 반영 요청처리
@@ -131,7 +136,7 @@ public class PostController {
 	 *  검색 키워드가 넘어오지않으면 PostDto 의 condition 과 keyword 는 null 이다 
 	 */
 	@GetMapping("/posts")
-	//search 는 어디서 날아오는가?
+	//search 는 어디서 날아오는가? 파라미터로 condition 과 keyword 가 날아옴
 	public PostListDto list(@RequestParam(defaultValue = "1") int pageNum, PostDto search) {
 		//글 목록과 검색 키워드 관련 정보가 들어 있는 PostListDto 
 		PostListDto dto=service.getPosts(pageNum, search);
