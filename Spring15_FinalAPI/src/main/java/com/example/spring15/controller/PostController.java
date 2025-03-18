@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,31 +78,16 @@ public class PostController {
 	}
 	
 	//글 수정 반영 요청처리
-	@PostMapping("/post/update")
-	public String update(PostDto dto, RedirectAttributes ra) {
+	@PatchMapping("/posts/{num}")
+	public PostDto update(@PathVariable(value = "num") long num, @RequestBody PostDto dto) {
+		//글 번호를 dto 에 담는다.
+		dto.setNum(num);
+		//서비스를 이용해서 수정반영
 		service.updatePost(dto);
-		/*
-		 *  RedirectAttributes 객체에 FlashAttribute 로 담은 내용은
-		 *  redirect 이동된 요청을 처리하는 곳의 Model 객체에 자동으로 담긴다.
-		 */
-		ra.addFlashAttribute("updateMessage", dto.getNum()+" 번 글을 수정했습니다.");
-		//수정 반영후 글 자세히 보기로 이동 
-		return "redirect:/post/view?num="+dto.getNum();
+		//수정된 글정보 리턴 
+		return dto;
 	}
 	
-	//글 수정 폼 요청처리
-	@GetMapping("/post/edit")
-	public String edit(long num, Model model) {
-		//수정할 글정보를 얻어와서 Model 객체에 담는다.
-		PostDto dto=service.getByNum(num);
-		model.addAttribute("dto", dto);
-		return "post/edit";
-	}
-	
-	@GetMapping("/post/new")
-	public String newForm() {
-		return "post/new";
-	}
 	
 	@PostMapping("/posts")
 	//title content
