@@ -1,5 +1,8 @@
 /.metadata/
 
+# gmini api key
+Spring16_AI/src/main/resources/custom.properties
+
 .classpath
 .project
 
