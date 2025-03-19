@@ -48,21 +48,24 @@ public class PostController {
 	}
 	
 	//댓글 리스트를 보여주는 요청
-	@GetMapping("/post/comment-list")
-	@ResponseBody //view.html에서 fetch 요청에 사용되기에 응답받기 원하는 view.html 에서 json으로 받기위해서
-	public Map<String, Object> commentList(CommentListRequest clr){
-		//CommentListRequest 객체에는 댓글의 pageNum과 글번호 postNum이 들어 있다.
-		
+	@GetMapping("/posts/{num}/comments")
+	public Map<String, Object> commentList(@PathVariable("num") long num, int pageNum){
+		//CommentListRequest 에 필요한 정보를 담고
+		CommentListRequest clr = new CommentListRequest();
+		clr.setPostNum(num);
+		clr.setPageNum(pageNum);
+		//서비스를 이용해서 댓글 목록 정보를 얻어내서 응답한다.
+		//"list" : [{}, {}, {}] , "totalPageCount" : 10 이런 형식의 데이터를 리턴
 		return service.getComments(clr);
 	}
 	
 	
 	//댓글 저장 요청처리
-	@PostMapping("/post/save-comment")
-	@ResponseBody //dto 에 저장된 내용을 json 으로 응답하기 위한 어노테이션 ?
-	// dto에는 content, postNum, tatgetWriter, parentNum ?이 담겨있는데 
-	//원글의 댓글인지 대댓글인지는 parentNum 이 0인지 아닌지에 따라서 알 수 있음
-	public CommentDto saveComment(CommentDto dto) {		
+	@PostMapping("/posts/{num}/comments")
+	public CommentDto saveComment(@PathVariable(value ="num") long num ,@RequestBody CommentDto dto) {		
+		//dto 에 원글의 글 번호 담기
+		dto.setNum(num);
+		//서비스를 이용해서 댓글 저장
 		service.createComment(dto);
 		return dto;
 	}
