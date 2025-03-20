@@ -3,7 +3,7 @@ package com.example.spring15;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
-@PropertySource("classpath:custom.properties")
+@PropertySource({"classpath:custom.properties" , "classpath:gemini.properties"})
 @SpringBootApplication
 public class Spring15FinalApiApplication {
 	//git test
