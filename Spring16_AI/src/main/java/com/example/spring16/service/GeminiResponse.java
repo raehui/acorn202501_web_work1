@@ -3,7 +3,8 @@ package com.example.spring16.service;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
-
+// 응답에서 원하는 데이터만 뽑기위한 객체
+// 타고 타고 안으로 들어가는 듯...
 public class GeminiResponse {
     @SerializedName("candidates")
     private List<Candidate> candidates;
