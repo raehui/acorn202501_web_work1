@@ -30,11 +30,13 @@ public class PostController {
 	@Autowired private PostService service;
 	
 	
-	@PostMapping("/post/update-comment")
-	@ResponseBody //문자열은 그대로, map 혹은 dto는 json으로 변경해서 자동으로 응답한다. list 는 제너릭에 따라서 알아서 담아줌
-	public Map<String, Boolean> updateComment(CommentDto dto){
-		service.updateComment(dto);
+	@PatchMapping("/posts/{num}/comments")
+	public Map<String, Boolean> updateComment(@RequestBody CommentDto dto){
+		//dto 에는 댓글의 글번호와 댓글의 내용이 들어 있다.
+		service.updateComment(dto);		
 		return Map.of("isSuccess", true);
+		
+		
 	}
 	
 	@GetMapping("/post/delete-comment")

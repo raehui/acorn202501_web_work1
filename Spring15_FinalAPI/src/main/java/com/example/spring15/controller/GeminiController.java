@@ -18,6 +18,7 @@ public class GeminiController {
 	
 	@PostMapping("/gemini/quiz")
 	//map 은 quiz : 문제 , answer : 답
+	// Mono 는 비동기 동작
 	public Mono<String> quiz(@RequestBody Map<String, String> map) {
 		
 		return service.quiz2(map);

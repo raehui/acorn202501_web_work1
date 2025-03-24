@@ -128,7 +128,7 @@ public class GeminiService {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(request) // Map 객체 대신에 GeminiRequest 객체를 넣어주면 json 으로 변경된다.
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(String.class) // 여기까지는 응답할 질문 틀을 생성함
                 .doOnNext(responseBody -> System.out.println(responseBody))
                 .flatMap(responseBody -> {
                     try {
