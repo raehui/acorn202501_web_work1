@@ -29,16 +29,15 @@ public class PostController {
 	
 	@Autowired private PostService service;
 	
-	@DeleteMapping("/posts/{num}/comments")
-	public Map<String, Boolean> deleteComment(@PathVariable("num") long num) {
-		
+	@DeleteMapping("/posts/{num}/comments/{commentNum}")
+	public Map<String, Boolean> deleteComment(@PathVariable("commentNum") long num) {
+		// 해당 댓글 삭제하기
 		service.deleteComment(num);
 		return Map.of("isSuccess",true);
-		
 	}
 	
 	
-	@PatchMapping("/posts/{num}/comments")
+	@PatchMapping("/posts/{num}/comments/{commentNum}")
 	public Map<String, Boolean> updateComment(@RequestBody CommentDto dto){
 		//dto 에는 댓글의 글번호와 댓글의 내용이 들어 있다.
 		service.updateComment(dto);		
