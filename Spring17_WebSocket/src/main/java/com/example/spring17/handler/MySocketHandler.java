@@ -15,7 +15,7 @@ public class MySocketHandler extends TextWebSocketHandler{
 	// Thread Safe 한 동기화된 리스트 객체 사용하기
 	List<WebSocketSession> sessionList = Collections.synchronizedList(new ArrayList<>());
 	
-	//클라이언트가 웹소켓 연결을 요청하고 성공되었을 때 호출되는 메소드 ??? 
+	//클라이언트가 웹소켓 연결을 요청하고 성공되었을 때 호출되는 메소드
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		String sessionId =session.getId();
