@@ -114,7 +114,17 @@ public class DispatchingSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 //		String sessionId=session.getId();
 //		System.out.println(sessionId+" 연결해제됨!");
+		// 접속인 종료된 session 을 List 에서 제거
 		sessionManager.remove(session);
+		// 접속이 종료된 session  이 대화방에 입장한 session 인지 확인해서 맞으면 Map 에서도 제거
+		// 접속이 종료된 session 을 넣어봐서 userName 확인
+		String userName = sessionManager.getSessionUser(session);
+		// 만일 userName 이 null 이 아니라면 대화방에 입장된 userName 이다.
+		if(userName != null) {
+			// 메소드 내부에서 2개의 Map 에서 모두 제거되는 코드가 있다.
+			sessionManager.removeUser(userName);
+			
+		}
 		
 	}
 }
