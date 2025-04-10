@@ -25,6 +25,29 @@ public class ChatSocketController {
 	// 객체 <=> json 상호 변경할 수 잇는 객체
 	ObjectMapper mapper = new ObjectMapper();
 	
+	@SocketMapping("/chat/whisper")
+	public void chatWhisper(WebSocketSession session, ChatMessage message) {
+		Map<String, Object> map = Map.of(
+				"type" ,"whisper",
+				"payload", Map.of(
+						"userName", message.getUserName(),
+						"text", message.getText(),
+						"toUserName", message.getToUserName()
+						)
+				);
+		String json="{}";
+		try {
+			json= mapper.writeValueAsString(map);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		TextMessage msg = new TextMessage(json);
+		// 위의 TextMessage 를 보낸사람과 받는 사람에세 private 전송한다.
+		sessionManager.privateMessage(message.getUserName(), msg);
+		sessionManager.privateMessage(message.getToUserName(), msg);
+		
+	}
+	
 	@SocketMapping("/chat/public")
 	public void chatPublic(WebSocketSession session, ChatMessage message) {
 		String json = """
@@ -73,8 +96,9 @@ public class ChatSocketController {
 		}
 				
 		// 대화방에 입장한 모든 클라이언트에세 전송할 정보
+		// 웹소켓에는 TextMessage 로 포장을 해서 보내야 한다.
 		TextMessage msg = new TextMessage(json);
-		// session manager 객체의 메소드를 이용해서 전송한다.
+		// session manager 객체의 메소드(모든 참여자에게 메세지 전송)를 이용해서 전송한다.
 		sessionManager.broadcast(msg);				
 	}
 		

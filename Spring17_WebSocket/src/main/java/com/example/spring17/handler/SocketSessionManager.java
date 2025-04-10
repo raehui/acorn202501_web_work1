@@ -74,19 +74,21 @@ public class SocketSessionManager {
 //					}
 //			}	
 //		""".formatted(userName);
-		
+		// 누가 퇴장했는지에 대한 정보를 Map 에 담아서
 		Map<String, Object> map = Map.of(
 				"type","leave",
 				"payload", Map.of(
 					"userName", userName
 				)
 		);
+		// json 으로 변경하고
 		String json="{}";
 		try {
 			mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-		}		
+		}
+		// broadcast 한다.
 		TextMessage msg = new TextMessage(json);
 		broadcast(msg);		
 	}
@@ -102,6 +104,20 @@ public class SocketSessionManager {
 				e.printStackTrace();
 			}
 		});
+	}
+	
+	//특정 session 에만 TextMessage 를 전송하는 메소드
+	public void privateMessage(String userName, TextMessage msg) {
+		// userName 에게 보낼 수 있는 session 을 얻어내서
+		WebSocketSession session = userSessions.get(userName);
+		// 만일 없으면 메소드 종료
+		if(session != null) return;
+		try {
+			// 해당 session에만 메세지를 보낸다.
+			session.sendMessage(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void register(WebSocketSession session) {
