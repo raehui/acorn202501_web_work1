@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>update.html</title>
+</head>
+<body>
+	
+	<!--/* 여기서 param은 edit 에서 model 에 담기 전의 request 영역에 담긴 정보를 빼내온다.
+		<script>
+			alert("[[${param.name}]] 님의 정보를 수정했습니다.");
+			location.href="[[@{/member/list}]]";
+		</script>
+	*/-->
+	
+	<script th:inline="javascript">
+		alert(/*[[${param.name} + ' 님의 정보를 수정했습니다.']]*/);
+		location.href=/*[[@{/member/list}]]*/"";
+	</script>
+</body>
+</html>

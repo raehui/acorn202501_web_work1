@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>updateform.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>회원 수정 폼 입니다.</h1>
+		<form th:action="@{/member/update}" method="post">
+			<input type="hidden" name="num" th:value="${dto.num}"/>
+			이름 : <input type="text" name="name" th:value="${dto.name}"/>
+			주소 : <input type="text" name="addr" th:value="${dto.addr}" />
+			<button th:type="submit">수정하기</button>
+		</form>
+	</div>
+</body>
+</html>
