@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h1>이미지 업로드 결과</h1>
+		<p>
+			설명 : <strong th:text="${caption}"></strong>
+		</p>
+		<p>
+			저장된 파일명 : <strong th:text="${saveFileName}"></strong>
+		</p>
+		<!--/*
+			지금 이미지는 서버시스템의 어딘가의 파일에 존재하고 있다면 어떻게 출력하는가?
+			저장된 파일명만 전달하면 이미지를 꺼내와주는 controller
+			이미지 데이터에 빨대를 꼽아서 byte로 응답
+		*/-->
+		<!--/*이미지를 제공하는 컨트롤러의 경로 + 저장된 이미지의 이름*/-->
+		<img th:src="@{'/upload/' + ${saveFileName}}"/>
+	</div>
+</body>
+</html>
