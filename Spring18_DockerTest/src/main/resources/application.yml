@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Spring18_DockerTest
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 60MB
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: ${ORACLE_URL:jdbc:oracle:thin:@localhost:1521:xe}
+    username: ${ORACLE_USERNAME:scott}
+    password: ${ORACLE_PASSWORD:TIGER}
+server:
+  port: ${SERVER_PORT:9001}
+  servlet:
+    context-path: ${CONTEXT_PATH:/spring18}
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.spring18.**
